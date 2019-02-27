@@ -1,0 +1,416 @@
+<div class="title-description margin-bottom--24">
+  <h3 class="margin-bottom--24">Edit {{ specifiedBusinessJob?.jobTitle }}</h3>
+</div>
+<div class="row">
+  <div class="col-md-6 padding-left--0">
+
+  </div>
+  <div class="col-md-6 padding-right--0 d-flex d-flex--justify-between">
+
+  </div>
+</div>
+ <div class="row">
+  <div class="d-flex--direction-column d-flex--align-center d-flex--justify-center full-width full-height">
+    <div class="form-wrapper">
+      <div class="row">
+        <div class="col-md-12 padding-left--0 padding-right--0">
+          <form [formGroup]="businessJobsForm">
+            <div class="row">
+              <div class="col-md-6 padding-left--0">
+                <h3 class="subtitle-row margin-bottom--24">job details</h3>
+                <div class="form-group required-icon-content">
+                  <input type="text" class="form-control input-form" formControlName="jobTitle" placeholder="Job title" required>
+                  <span class="required-icon">*</span>
+                  <span class="help-bpx" *ngIf="businessJobsForm.controls['jobTitle']?.errors?.required && businessJobsForm.controls['jobTitle'].touched">Job Title is required</span>
+                </div>
+                <!-- job title -->
+                <div class="form-group required-icon-content">
+                  <ss-multiselect-dropdown class="input-form half-width padding--0 border--none"
+                                           [settings]="articlesFirmSettingsBus"
+                                           [texts]="articlesFirmTextConfigBus"
+                                           [options]="indistrySelect"
+                                           [(ngModel)]="optionsModelBus"
+                                           formControlName="industry"
+                  ></ss-multiselect-dropdown>
+                  <span class="required-icon">*</span>
+                  <span class="help-bpx" *ngIf="businessJobsForm.controls['industry']?.errors?.required && businessJobsForm.controls['industry'].touched">Industry is required</span>
+                </div>
+                <!-- industry -->
+                <div class="form-group required-icon-content">
+                  <input type="text" class="form-control input-form" formControlName="companyName" placeholder="Company name">
+                  <span class="required-icon">*</span>
+                  <span class="help-bpx" *ngIf="businessJobsForm.controls['companyName']?.errors?.required && businessJobsForm.controls['companyName'].touched">Company Name is required</span>
+                </div>
+                <!-- company name -->
+                <div class="form-group required-icon-content">
+                  <input type="text" id="search1" placeholder="Company address" formControlName="address"
+                         autocorrect="off" autocapitalize="off" spellcheck="off" class="form-control input-form" #search1>
+                  <span class="required-icon">*</span>
+                  <span class="help-bpx" *ngIf="businessJobsForm.controls['address']?.errors?.required && businessJobsForm.controls['address'].touched">Company Address is required</span>
+                </div>
+                <!-- company address -->
+                <div class="form-group several-inputs d-flex d-flex--justify-between">
+                  <div class="d-flex d-flex--direction-column half-width d-flex--align-start d-flex--justify-start">
+                    <input type="text" class="form-control input-form ninty-five-percent-width" id="build_name" formControlName="addressBuildName" placeholder="Address Build Name">
+                    <span class="help-bpx" *ngIf="businessJobsForm.controls['addressBuildName']?.errors?.required && businessJobsForm.controls['addressBuildName'].touched">
+                      Address Build Name is required
+                    </span>
+                  </div>
+                  <div class="d-flex d-flex--direction-column half-width d-flex--align-end d-flex--justify-end">
+                    <input type="text" class="form-control input-form ninty-five-percent-width" id="address_init" formControlName="addressUnit" placeholder="Address Unit">
+                    <span class="help-bpx" *ngIf="businessJobsForm.controls['addressUnit']?.errors?.required && businessJobsForm.controls['addressUnit'].touched">
+                    Address Unit is required
+                  </span>
+                  </div>
+                </div>
+                <div class="form-group several-inputs d-flex d-flex--justify-between">
+                  <div class="d-flex d-flex--direction-column half-width d-flex--align-start d-flex--justify-start required-icon-content">
+                    <input type="text" id="street_number" class="form-control ninty-five-percent-width input-form" formControlName="addressStreetNumber" placeholder="Street address number">
+                    <span class="help-bpx" *ngIf="businessJobsForm.controls['addressStreetNumber']?.errors?.required && businessJobsForm.controls['addressStreetNumber'].touched">
+                    Street address number
+                  </span>
+                  </div>
+                  <div class="d-flex d-flex--direction-column half-width d-flex--align-end d-flex--justify-end required-icon-content">
+                    <input type="text" id="route" class="form-control input-form ninty-five-percent-width" formControlName="addressStreet" placeholder="Street">
+                    <span class="help-bpx" *ngIf="businessJobsForm.controls['addressStreet']?.errors?.required && businessJobsForm.controls['addressStreet'].touched">Street is required</span>
+                  </div>
+                </div>
+                <!-- company street number -->
+                <div class="form-group several-inputs d-flex d-flex--justify-between">
+                  <div class="d-flex d-flex--direction-column half-width d-flex--align-start d-flex--justify-start required-icon-content">
+                    <input type="text" class="form-control ninty-five-percent-width input-form" id="locality" formControlName="addressCity" placeholder="City">
+                    <span class="help-bpx" *ngIf="businessJobsForm.controls['addressCity']?.errors?.required && businessJobsForm.controls['addressCity']?.touched">City is required</span>
+                  </div>
+                  <div class="d-flex d-flex--direction-column half-width d-flex--align-end d-flex--justify-end required-icon-content">
+                    <input type="text" class="form-control ninty-five-percent-width input-form" id="sublocality_level_2" formControlName="addressSuburb" placeholder="Suburb">
+                    <span class="help-bpx" *ngIf="businessJobsForm.controls['addressSuburb']?.errors?.required && businessJobsForm.controls['addressSuburb']?.touched">Suburb is required</span>
+                  </div>
+                </div>
+                <!-- company city -->
+                <div class="form-group several-inputs d-flex d-flex--justify-between">
+                  <div class="d-flex d-flex--direction-column half-width d-flex--align-start d-flex--justify-start required-icon-content">
+                    <input type="text" class="form-control input-form ninty-five-percent-width" id="administrative_area_level_1" formControlName="addressState" placeholder="Province">
+                    <span class="help-bpx" *ngIf="businessJobsForm.controls['addressState']?.errors?.required && businessJobsForm.controls['addressState'].touched">State is required</span>
+                  </div>
+                  <div class="d-flex d-flex--direction-column half-width d-flex--align-end d-flex--justify-end required-icon-content">
+                    <input type="text" class="form-control input-form ninty-five-percent-width" id="postal_code" formControlName="addressZipCode" placeholder="Postal code">
+                    <span class="help-bpx" *ngIf="businessJobsForm.controls['addressZipCode']?.errors?.required && businessJobsForm.controls['addressZipCode'].touched">Postal code is required</span>
+                  </div>
+                </div>
+                <!-- company state -->
+                <div class="form-group required-icon-content">
+                  <input type="text" id="country" class="form-control input-form" formControlName="addressCountry" placeholder="Country">
+                  <span class="help-bpx" *ngIf="businessJobsForm.controls['addressCountry']?.errors?.required && businessJobsForm.controls['addressCountry'].touched">Country is required</span>
+                </div>
+                <!-- company country -->
+                <div class="form-group d-flex--direction-column d-flex d-flex--align-top d-flex--justify-between position--relative required-icon-content">
+                  <textarea type="text" cols="10" rows="6" class="form-control input-form" #companyDescription maxlength="300" formControlName="companyDescription" placeholder="Company description"></textarea>
+                  <span class="required-icon">*</span>
+                  <small class="form-text text-muted" style="top: 110px">{{ 300 - companyDescription.value.length }} characters</small>
+                  <span class="help-bpx" *ngIf="businessJobsForm.controls['companyDescription']?.errors?.required && businessJobsForm.controls['companyDescription'].touched">
+                    Company description is required
+                  </span>
+                  <!-- required field validation -->
+                  <span class="help-bpx" *ngIf="businessJobsForm.controls['companyDescription']?.errors?.maxlength && businessJobsForm.controls['companyDescription'].touched">
+                    Company description must be less than 300 characters
+                  </span>
+                  <!-- maxlength field validation -->
+                </div>
+                <!-- company description -->
+                <div class="form-group d-flex d-flex--direction-column position--relative required-icon-content">
+                  <textarea type="text" cols="10" rows="6" class="form-control input-form" #roleDescription maxlength="400" formControlName="roleDescription" placeholder="About the role"></textarea>
+                  <span class="required-icon">*</span>
+                  <small class="form-text text-muted">{{ 400 - roleDescription.value.length }} characters</small>
+                  <span class="help-bpx" *ngIf="businessJobsForm.controls['roleDescription']?.errors?.required && businessJobsForm.controls['roleDescription'].touched">
+                    About the role is required
+                  </span>
+                  <!-- required field validation -->
+                  <span class="help-bpx" *ngIf="businessJobsForm.controls['roleDescription']?.errors?.maxlength && businessJobsForm.controls['roleDescription'].touched">
+                    About the role must be less than 400 characters
+                  </span>
+                  <!-- maxlength field validation -->
+                </div>
+                <!-- role description -->
+
+                <div class="file-upload-block">
+                  <div class="form-group d-flex d-flex--align-start">
+                    <div class="container padding-left--0 padding-right--0">
+                      <div class="row">
+                        <div class="col-md-3 padding-left--0 required-icon-content d-flex d-flex--align-center">
+                          <label class="title-upload text-desc" style="font-size: 13px; font-weight: 300; color: #969696;">Upload Job Spec</label>
+                        </div>
+                        <div class="col-md-4">
+                          <div class="custom-upload">
+                            <label *ngIf="specFilesArray !== null && specFilesArray.length > 0 && !checkSpecFiles" class="btn-interview" for="file4" data-element="custom-upload-button"><i class="fas fa-upload"></i> Upload another file</label>
+                            <label *ngIf="specFilesArray === null && !checkSpecFiles || specFilesArray.length === 0 && !checkSpecFiles" class="btn-interview" for="file4" data-element="custom-upload-button"><i class="fas fa-upload"></i> Browse & upload</label>
+                            <label *ngIf="checkSpecFiles" class="btn-interview" for="file4" data-element="custom-upload-button">
+                              <div class="loader--tiny-file"></div>
+                              <i class="fas fa-upload"></i> Browse & upload
+                            </label>
+                            <input class="custom-upload__input" (change)="uploadFiles('specFilesArray', $event)" #specFiles id="file4" type="file" data-behaviour="custom-upload-input" value=""/>
+                          </div>
+                          <!--<input type="file" multiple #cvFiles class="form-control">-->
+                        </div>
+                        <div class="col-md-5 padding-right--0 d-flex d-flex--align-center d-flex--justify-end">
+                          <div class="file-container">
+                            <div class="file-info d-flex d-flex--justify-end margin-bottom--0" *ngFor="let name of specFilesArray">
+                              <span>{{ name.name }}</span>
+                              <button class="btn btn-default margin-left--12" (click)="removeFile('cvFilesArray', i)"><span>x</span></button>
+                            </div>
+                            <div class="file-info d-flex d-flex--justify-end margin-bottom--0" *ngIf="specFilesArray === null || specFilesArray.length === 0">
+                              <span class="decs-text">Nothing uploaded</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="application-closure-date-wrap">
+                  <div class="form-group d-flex d-flex--align-center d-flex--justify-between">
+                    <span class="margin-right--12 decs-text required-icon-content">Application closure date<span class="required-icon">*</span></span>
+                    <div class="d-flex d-flex--direction-column">
+                      <div class="input-group display-year">
+                        <input class="input-form" ngx-mydatepicker name="applicationClosureDate" formControlName="closureDate" [options]="myOptions" #dp="ngx-mydatepicker" />
+                        <span class="input-group-btn">
+                          <button type="button" style="top: 0;" class="btn btn-default" (click)="dp.toggleCalendar()">
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                          </button>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <span class="help-bpx" *ngIf="businessJobsForm.controls['closureDate']?.errors?.required && businessJobsForm.controls['closureDate'].touched">
+                    Application closure date is required
+                  </span>
+                  <!-- required field validation -->
+                  <span class="help-bpx" *ngIf="businessJobsForm.controls['closureDate']?.errors?.validApplicationClosureDate && businessJobsForm.controls['closureDate'].touched">
+                    Application closure date cannot be greater than 1 month from the current date
+                  </span>
+                  <!-- validApplicationClosureDate field validation -->
+                </div>
+                <!-- application closure date -->
+              </div>
+              <div class="col-md-6 padding-right--0">
+                <h3 class="subtitle-row margin-bottom--24">Which candidates will see this job</h3>
+                <section class="candidates-allowed-to-see-jobs-wrap job-content-section">
+                  <div class="select-groups d-flex d-flex--align-center d-flex--wrap">
+                    <div class="form-group full-width d-flex d-flex--direction-column required-icon-content">
+                      <ss-multiselect-dropdown [options]="articlesFirmOptions"
+                                               [settings]="articlesFirmSettings"
+                                               [(ngModel)]="articlesFirmPredefined"
+                                               [texts]="articlesFirmTextConfig"
+                                               #articlesFirm
+                                               (ngModelChange)="specifiedArticlesFirmCriteria($event, gender.selectedValues[0], qualification.selectedValues[0], nationality.selectedValues[0], ethnicity.selectedValues[0], null, location.selectedValues[0], availability.selectedValues[0])"
+                                               formControlName="articlesFirm"></ss-multiselect-dropdown>
+                      <span class="required-icon">*</span>
+                      <span class="help-bpx" *ngIf="businessJobsForm.controls['articlesFirm']?.errors?.required && businessJobsForm.controls['articlesFirm'].touched">
+                        Articles Firm is required
+                      </span>
+                      <!-- required field validation -->
+                    </div>
+                    <!-- articles firm -->
+                    <div class="form-group full-width d-flex d-flex--direction-column required-icon-content">
+                      <ng-select formControlName="gender" placeholder="Gender" #gender [searchable]="false" (change)="fetchCandidatesByCriteria(articlesFirmSelectedName, gender.selectedValues[0], qualification.selectedValues[0], nationality.selectedValues[0], ethnicity.selectedValues[0], null, location.selectedValues[0], availability.selectedValues[0])">
+                        <!--<ng-option [value]="null">Gender</ng-option>-->
+                        <ng-option [value]="'All'">Gender - All selected</ng-option>
+                        <ng-option [value]="'Male'">Male</ng-option>
+                        <ng-option [value]="'Female'">Female</ng-option>
+                      </ng-select>
+                      <span class="required-icon">*</span>
+                      <span class="help-bpx" *ngIf="businessJobsForm.controls['gender']?.invalid && businessJobsForm.controls['gender'].touched">
+                        Gender is required
+                      </span>
+                      <!-- required field validation -->
+                    </div>
+                    <!-- gender -->
+                    <div class="form-group full-width required-icon-content">
+                      <ng-select formControlName="qualification" placeholder="Qualification" #qualification [searchable]="false" (change)="fetchCandidatesByCriteria(articlesFirmSelectedName, gender.selectedValues[0], qualification.selectedValues[0], nationality.selectedValues[0], ethnicity.selectedValues[0], null, location.selectedValues[0], availability.selectedValues[0])">
+                        <!--<ng-option [value]="null">Qualification</ng-option>-->
+                        <!--<ng-option [value]="0">All</ng-option>-->
+                        <ng-option [value]="1">Qualification - Newly qualified CA</ng-option>
+                        <ng-option [value]="2">Part qualified CA</ng-option>
+                      </ng-select>
+                      <span class="required-icon">*</span>
+                      <span class="help-bpx" *ngIf="businessJobsForm.controls['qualification']?.errors?.required && businessJobsForm.controls['qualification'].touched">
+                        Qualification is required
+                      </span>
+                      <!-- required field validation -->
+                    </div>
+                    <!-- qualification -->
+                    <div class="form-group full-width d-flex d-flex--direction-column required-icon-content">
+                      <ng-select formControlName="nationality" placeholder="Nationality" #nationality [searchable]="false" (change)="fetchCandidatesByCriteria(articlesFirmSelectedName, gender.selectedValues[0], qualification.selectedValues[0], nationality.selectedValues[0], ethnicity.selectedValues[0], null, location.selectedValues[0], availability.selectedValues[0])">
+                        <!--<ng-option [value]="null">Nationality</ng-option>-->
+                        <ng-option [value]="0">Nationality - All selected</ng-option>
+                        <ng-option [value]="1">South African Citizen (BBBEE)</ng-option>
+                        <ng-option [value]="2">South African Citizen (Non-BBBEE)</ng-option>
+                        <ng-option [value]="3">Non-South African (With Permit)</ng-option>
+                        <ng-option [value]="4">Non-South African (Without Permit)</ng-option>
+                      </ng-select>
+                      <span class="required-icon">*</span>
+                      <span class="help-bpx" *ngIf="businessJobsForm.controls['nationality']?.errors?.required && businessJobsForm.controls['nationality'].touched">
+                        Nationality is required
+                      </span>
+                      <!-- required field validation -->
+                    </div>
+                    <!-- nationality -->
+                    <!--<div class="form-group margin-right&#45;&#45;12 d-flex d-flex&#45;&#45;direction-column">-->
+                    <!--<select class="form-control" formControlName="post_articles">-->
+                    <!--<option value="null">Years post articles</option>-->
+                    <!--<option value="0">All</option>-->
+                    <!--<option value="1">Newly qualified</option>-->
+                    <!--<option value="2">1-3 years</option>-->
+                    <!--<option value="3">more than 3 years</option>-->
+                    <!--</select>-->
+                    <!--</div>-->
+                    <!-- years post articles -->
+                    <!--<div class="form-group margin-right&#45;&#45;12">-->
+                    <!--<select class="form-control" formControlName="salary_range">-->
+                    <!--<option value="null">Salary range</option>-->
+                    <!--<option value="0">None</option>-->
+                    <!--<option value="1">700K</option>-->
+                    <!--<option value="2">700 - 1 Million</option>-->
+                    <!--<option value="3">More than 1 Million</option>-->
+                    <!--</select>-->
+                    <!--</div>-->
+                    <!-- salary range -->
+                    <div class="form-group full-width d-flex d-flex--direction-column required-icon-content">
+                      <ng-select formControlName="ethnicity" placeholder="Ethnicity" #ethnicity [searchable]="false" (change)="fetchCandidatesByCriteria(articlesFirmSelectedName, gender.selectedValues[0], qualification.selectedValues[0], nationality.selectedValues[0], ethnicity.selectedValues[0], null, location.selectedValues[0], availability.selectedValues[0])">
+                        <!--<ng-option [value]="">Ethnicity</ng-option>-->
+                        <ng-option [value]="'All'">Ethnicity - All selected</ng-option>
+                        <ng-option [value]="'Black'">Black</ng-option>
+                        <ng-option [value]="'White'">White</ng-option>
+                        <ng-option [value]="'Coloured'">Coloured</ng-option>
+                        <ng-option [value]="'Indian'">Indian</ng-option>
+                        <ng-option [value]="'Oriental'">Oriental</ng-option>
+                      </ng-select>
+                      <span class="required-icon">*</span>
+                      <span class="help-bpx" *ngIf="businessJobsForm.controls['ethnicity']?.errors?.required && businessJobsForm.controls['ethnicity'].touched">
+                        Ethnicity is required
+                      </span>
+                      <!-- required field validation -->
+                    </div>
+                    <!-- ethnicity -->
+                    <!--<div class="form-group full-width d-flex&#45;&#45;direction-column">
+                      <ng-select formControlName="video" placeholder="Video" #video [searchable]="false" (change)="fetchCandidatesByCriteria(articlesFirmSelectedName, gender.selectedValues[0], qualification.selectedValues[0], nationality.selectedValues[0], ethnicity.selectedValues[0], null, location.selectedValues[0], availability.selectedValues[0])">
+                        &lt;!&ndash;<ng-option [value]="null">Video</ng-option>&ndash;&gt;
+                        <ng-option [value]="0">All</ng-option>
+                        <ng-option [value]="1">With video</ng-option>
+                      </ng-select>
+                      <span class="help-bpx" *ngIf="businessJobsForm.controls['video']?.errors?.required && businessJobsForm.controls['video'].touched">
+                        Video is required
+                      </span>
+                      &lt;!&ndash; required field validation &ndash;&gt;
+                    </div>-->
+                    <!-- video -->
+                    <div class="form-group full-width d-flex--direction-column required-icon-content">
+                      <ng-select formControlName="location" placeholder="Location" #location [searchable]="false" (change)="fetchCandidatesByCriteria(articlesFirmSelectedName, gender.selectedValues[0], qualification.selectedValues[0], nationality.selectedValues[0], ethnicity.selectedValues[0], null, location.selectedValues[0], availability.selectedValues[0])">
+                        <!--<ng-option [value]="">Location</ng-option>-->
+                        <ng-option [value]="'All'">Location - All selected</ng-option>
+                        <ng-option [value]="'Johannesburg'">Johannesburg</ng-option>
+                        <ng-option [value]="'Cape Town'">Cape Town</ng-option>
+                        <ng-option [value]="'Pretoria'">Pretoria</ng-option>
+                        <ng-option [value]="'Durban'">Durban</ng-option>
+                        <ng-option [value]="'International'">International</ng-option>
+                        <ng-option [value]="'Other'">Other</ng-option>
+                      </ng-select>
+                      <span class="required-icon">*</span>
+                      <span class="help-bpx" *ngIf="businessJobsForm.controls['location']?.errors?.required && businessJobsForm.controls['location'].touched">
+                        Location is required
+                      </span>
+                      <!-- required field validation -->
+                    </div>
+                    <!-- location -->
+                    <div class="form-group full-width d-flex--direction-column required-icon-content">
+                      <ng-select formControlName="availability" placeholder="Availability" #availability [searchable]="false" (change)="fetchCandidatesByCriteria(articlesFirmSelectedName, gender.selectedValues[0], qualification.selectedValues[0], nationality.selectedValues[0], ethnicity.selectedValues[0], null, location.selectedValues[0], availability.selectedValues[0])">
+                        <!--<ng-option [value]="null">Availability</ng-option>-->
+                        <ng-option [value]="0">Availability - All selected</ng-option>
+                        <ng-option [value]="1">Immediately</ng-option>
+                        <ng-option [value]="2">Within 1 calendar month</ng-option>
+                        <ng-option [value]="3">Within 3 calendar months</ng-option>
+                      </ng-select>
+                      <span class="required-icon">*</span>
+                      <span class="help-bpx" *ngIf="businessJobsForm.controls['availability']?.errors?.required && businessJobsForm.controls['availability'].touched">
+                        Availability is required
+                      </span>
+                      <!-- required field validation -->
+                    </div>
+                    <!-- availability -->
+                    <div class="form-group d-flex d-flex--justify-end full-width">
+                      <span class="count-candidates">{{ candidatesMatchingCriteria }} <span>Candidates will see your advert</span></span>
+                    </div>
+
+                    <div class="application-closure-date-wrap full-width">
+                      <div class="form-group d-flex d-flex--align-center d-flex--justify-between">
+                        <span class="margin-right--12 decs-text required-icon-content">Ideal Start Date <span class="required-icon">*</span></span>
+                        <div class="d-flex d-flex--direction-column">
+                          <div class="input-group display-year left-path-date">
+                            <input class="input-form" ngx-mydatepicker placeholder="Enter Date" name="started" formControlName="started" [options]="myOptions" #dp1="ngx-mydatepicker" />
+                            <span class="input-group-btn">
+                              <button type="button" style="top: 0;" class="btn btn-default" (click)="dp1.toggleCalendar()">
+                                <i class="fa fa-calendar" aria-hidden="true"></i>
+                              </button>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <span class="help-bpx" *ngIf="businessJobsForm.controls['started']?.errors?.required && businessJobsForm.controls['started'].touched">
+                        Ideal start date is required
+                      </span>
+                    </div>
+                    <!-- job start date -->
+
+                    <div class="application-closure-date-wrap full-width">
+                      <div class="form-group d-flex d-flex--align-center d-flex--justify-between">
+                        <span class="margin-right--12 decs-text required-icon-content">The position must be filled no later than:</span>
+                        <div class="d-flex d-flex--direction-column">
+                          <div class="input-group display-year left-path-date">
+                            <input class="input-form" ngx-mydatepicker name="filled" placeholder="Enter Date" formControlName="filled" [options]="myOptions" #dp2="ngx-mydatepicker" />
+                            <span class="input-group-btn">
+                          <button type="button" style="top: 0;" class="btn btn-default" (click)="dp2.toggleCalendar()">
+                            <i class="fa fa-calendar" aria-hidden="true"></i>
+                          </button>
+                        </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- filled date -->
+                  </div>
+                </section>
+              </div>
+            </div>
+            <!-- company description -->
+            <!-- candidates-allowed-to-see-jobs-wrap -->
+            <div class="row">
+              <div class="col-md-12 d-flex d-flex--justify-end">
+                <button type="submit" class="btn primary-button btn-lg margin-top--48 margin-bottom--48" (click)="processJobsEdit(currentBusineesJobId)">Submit for review</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <!-- -->
+    </div>
+  </div>
+</div>
+<div *ngIf="preloaderPage" id="preloader">
+ <div id="loader"></div>
+</div>
+
+
+<ng-template #content let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">think twice</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <h3 class="job-popup-title">Are you sure you want to leave now?</h3>
+    <span class="job-popup-desc">If you leave now without submitting your advert for review you will loose everything you have done for this advert</span>
+    <button (click)="d('Cross click')" class="btn primary-button job-popup-button">Continue with advert</button>
+    <a (click)="exitPage()" class="job-popup-delete">Delete advert</a>
+  </div>
+</ng-template>

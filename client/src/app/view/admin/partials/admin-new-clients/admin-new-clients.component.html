@@ -1,0 +1,92 @@
+<div class="title-description margin-bottom--32">
+  <h3 class="margin-bottom--12">clients</h3>
+</div>
+<div class="row">
+  <h4 class="subtitle-row">New clients awaiting approval</h4>
+</div>
+<div class="row">
+  <div class="col-md-12 padding-left--0 padding-right--0">
+    <div class="table-information full-width margin-bottom--24">
+      <div class="head">
+        <div class="row-table d-flex">
+          <div class="column-table" style="width: 16%">Name</div>
+          <div class="column-table" style="width: 16%">Company</div>
+          <div class="column-table" style="width: 30%">Email</div>
+          <div class="column-table" style="width: 14%">Tel Number</div>
+          <div class="column-table d-flex--justify-center" style="width: 24%">Actions</div>
+        </div>
+      </div>
+      <div class="body">
+        <div class="row-table" *ngFor="let businessProfile of approveBusinessList">
+          <input type="checkbox" class="accordions__checkbox" id="{{ businessProfile?.id }}">
+          <label class="accordions__heading" for="{{ businessProfile?.id }}">{{ businessProfile?.firstName }} {{ businessProfile?.lastName }} <span class="accordion-item-cta">&#9650;</span></label>
+          <div class="content-row d-flex accordions__content">
+            <div class="column-table acc border-right-table" style="width: 16%">
+              <div class="title-cell">Name</div>
+              <div class="description-cell">
+                <span>{{ businessProfile?.firstName }} {{ businessProfile?.lastName }}</span>
+              </div>
+            </div>
+            <div class="column-table border-right-table" style="width: 16%">
+              <div class="title-cell">Company</div>
+              <div class="description-cell">
+                <span>{{ businessProfile?.companyName }}</span>
+              </div>
+            </div>
+            <div class="column-table border-right-table" style="width: 30%">
+              <div class="title-cell">Email</div>
+              <div class="description-cell">
+                <span>{{ businessProfile?.email }}</span>
+              </div>
+            </div>
+            <div class="column-table border-right-table" style="width: 14%">
+              <div class="title-cell">Tel Number</div>
+              <div class="description-cell">
+                <span>{{ businessProfile?.phone }}</span>
+              </div>
+            </div>
+            <div class="column-table button-cell" style="width: 24%">
+              <div class="title-cell"></div>
+              <div class="description-cell d-flex--justify-between d-flex--align-center">
+                <a class="view-popup-icon" (click)="openVerticallyCentered(contentBusiness, businessProfile?.id)"><i class="fa fa-eye"></i></a>
+                <a class="view-popup-icon" (click)="openConfirm(confirm, approveBusinessList, 'managedBusinessUser', businessProfile, 'false')"><i class="fas fa-times-circle"></i></a>
+                <button class="btn primary-button" (click)="openConfirm(confirm, approveBusinessList, 'managedBusinessUser', businessProfile, 'true')">Approve</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row-table not-found-search" *ngIf="approveBusinessList.length === 0">
+          <div class="content-row d-flex accordions__content">
+            <div class="column-table d-flex--justify-center" style="width: 100%">
+              <span>Clients not found</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <span *ngIf="loadMoreCheck && !paginationLoader" class="job-popup-delete" (click)="loadPagination()">Load more</span>
+    <div *ngIf="paginationLoader" class="loader-table margin-bottom--12" id="loader-6">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="preloaderPage" id="preloader">
+  <div id="loader"></div>
+</div>
+
+<ng-template #contentBusiness let-cb="close" let-db="dismiss">
+  <app-client-profile-popup [closePopup]="db" [currentBusinessId]="selectedBusinessId" [businessList]="approveBusinessList"></app-client-profile-popup>
+</ng-template>
+
+<ng-template #confirm let-c="close" let-d="dismiss">
+  <app-admin-confirm-popup [closePopup]="d"
+                           [confirmArray]="confirmArray"
+                           [confirmFunction]="confirmFunction"
+                           [confirmData]="confirmData"
+                           [confirmStatus]="confirmStatus"
+  ></app-admin-confirm-popup>
+</ng-template>

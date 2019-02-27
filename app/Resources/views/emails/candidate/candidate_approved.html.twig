@@ -1,0 +1,20 @@
+{% extends 'emails/base_email.html.twig' %}
+{% block body_html %}
+    Dear {{ user.firstName }}
+    <br><br>
+    Your registration with CAs Online has been successful. Let’s get your profile set up so that you can get interviews secured for your ideal job.
+    <br><br>
+    You can now login on <a href="{{ link }}/login">{{ link }}</a> and complete your profile.
+    Please note that you will not be able to apply for any jobs until your profile is complete, which includes an uploaded CV and Video.
+    If you are in the Johannesburg area and would like to do your video professionally, please book a slot by emailing <a href="mailto:info@casonline.co.za">info@casonline.co.za</a>.
+    Alternatively if you would like to record your own video off Chrome then have a look at the link below what you are required to do to enable your camera and microphone:
+    <br><br>
+    <a href="https://vimeo.com/293908643">https://vimeo.com/293908643</a>
+    <br><br>
+    The tool is WhatsApp enabled, but we need you to connect your phone first. Go to Preferences in your profile and toggle on WhatsApp messages and follow the prompts.
+    Here is the video link which will help walk you through it:
+    <br><br>
+    <a href="https://vimeo.com/293904010">https://vimeo.com/293904010</a>
+    <br><br>
+    Please don’t hesitate to get hold of us on <a href="mailto:info@casonline.co.za">info@casonline.co.za</a> if you have any questions or feedback.
+{% endblock %}

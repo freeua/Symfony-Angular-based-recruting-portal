@@ -1,0 +1,94 @@
+<div class="title-description margin-bottom--32">
+  <h3 class="margin-bottom--12">CANDIDATES</h3>
+</div>
+<div class="row">
+  <h4 class="subtitle-row">New candidates awaiting approval</h4>
+</div>
+<div class="row">
+  <div class="col-md-12 padding-right--0 padding-left--0">
+    <div class="table-information full-width margin-bottom--24">
+      <div class="head">
+        <div class="row-table d-flex">
+          <div class="column-table" style="width: 20%">Name</div>
+          <div class="column-table" style="width: 20%">Articles Firm</div>
+          <div class="column-table" style="width: 20%">Email</div>
+          <div class="column-table" style="width: 15%">Tel Number</div>
+          <div class="column-table d-flex--justify-center" style="width: 25%">Actions</div>
+        </div>
+      </div>
+      <div class="body">
+        <div class="row-table" *ngFor="let candidateProfile of approveCandidateList">
+          <input type="checkbox" class="accordions__checkbox" id="{{ candidateProfile?.id }}">
+          <label class="accordions__heading" for="{{ candidateProfile?.id }}">{{ candidateProfile?.firstName }} {{ candidateProfile?.lastName }} <span class="accordion-item-cta">&#9650;</span></label>
+          <div class="content-row d-flex accordions__content">
+            <div class="column-table acc border-right-table" style="width: 20%">
+              <div class="title-cell">Name</div>
+              <div class="description-cell">
+                <span>{{ candidateProfile?.firstName }} {{ candidateProfile?.lastName }}</span>
+              </div>
+            </div>
+            <div class="column-table border-right-table" style="width: 20%">
+              <div class="title-cell">Articles Firm</div>
+              <div class="description-cell position--relative">
+                <img *ngIf="candidateProfile?.articlesFirm !== 'Other'" class="logo-table" src="/assets/img/logo_table/{{ candidateProfile?.articlesFirm | notSpace }}.jpg" #img (load)="hideArticlesFirm(img)" onerror="this.style.opacity='0'">
+                <span *ngIf="candidateProfile?.articlesFirm !== 'Other'" class="after_no-img">{{ candidateProfile?.articlesFirm }}</span>
+                <span *ngIf="candidateProfile?.articlesFirm === 'Other'">{{ candidateProfile?.articlesFirmName }}</span>
+              </div>
+            </div>
+            <div class="column-table border-right-table" style="width: 20%">
+              <div class="title-cell">Email</div>
+              <div class="description-cell">
+                <span>{{ candidateProfile?.email }}</span>
+              </div>
+            </div>
+            <div class="column-table border-right-table" style="width: 15%">
+              <div class="title-cell">Tel Number</div>
+              <div class="description-cell">
+                <span>{{ candidateProfile?.phone }}</span>
+              </div>
+            </div>
+            <div class="column-table button-cell" style="width: 25%">
+              <div class="title-cell"></div>
+              <div class="description-cell d-flex--justify-between d-flex--align-center">
+                <a class="view-popup-icon" (click)="openVerticallyCentered(contentCandidate, candidateProfile?.id)"><i class="fa fa-eye"></i></a>
+                <a class="view-popup-icon" (click)="openConfirm(confirm, approveCandidateList, 'managedCandidateUser', candidateProfile, 'false')"><i class="fas fa-times-circle"></i></a>
+                <button class="btn primary-button" (click)="openConfirm(confirm, approveCandidateList, 'managedCandidateUser', candidateProfile, 'true')">Approve</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row-table not-found-search" *ngIf="approveCandidateList.length === 0">
+          <div class="content-row d-flex accordions__content">
+            <div class="column-table d-flex--justify-center" style="width: 100%">
+              <span>Candidates not found</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <span *ngIf="loadMoreCheck && !paginationLoader" class="job-popup-delete" (click)="loadPagination()">Load more</span>
+    <div *ngIf="paginationLoader" class="loader-table margin-bottom--12" id="loader-6">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="preloaderPage" id="preloader">
+  <div id="loader"></div>
+</div>
+
+<ng-template #contentCandidate let-cc="close" let-dc="dismiss">
+  <app-candidate-profile-popup [closePopup]="dc" [currentId]="selectedId" [candidateList]="approveCandidateList"></app-candidate-profile-popup>
+</ng-template>
+
+<ng-template #confirm let-c="close" let-d="dismiss">
+  <app-admin-confirm-popup [closePopup]="d"
+                           [confirmArray]="confirmArray"
+                           [confirmFunction]="confirmFunction"
+                           [confirmData]="confirmData"
+                           [confirmStatus]="confirmStatus"
+  ></app-admin-confirm-popup>
+</ng-template>

@@ -1,0 +1,118 @@
+<div class="title-description">
+  <div class="row">
+    <div class="col-md-12 padding-right--0 padding-left--0 d-flex d-flex--justify-between d-flex--align-center title-description manage-system">
+      <h3>Manage system users</h3>
+      <div class="row">
+        <p class="margin-bottom--18 sub-text-system">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi dolor dolores eaque excepturi explicabo, id in iste, modi nam recusandae reprehenderit, saepe vitae voluptas. Cumque doloribus et ipsa necessitatibus reprehenderit.
+        </p>
+      </div>
+      <h4 class="title-row margin-bottom--18">Admin Users</h4>
+      <button class="btn primary-button float--right margin-bottom--24" (click)="openVerticallyCenteredCreated(createAdmin)">Add new user</button>
+    </div>
+  </div>
+</div>
+<div class="row margin-top--18 margin-bottom--18">
+  <div class="col-md-4 d-flex d-flex--justify-start d-flex--align-center padding-right--0 padding-left--0">
+    <input type="text" class="input-form full-width padding-right--40" placeholder="Search your contacts" #search (keyup.enter)="resetArrayPagination();getAllAdmins(search.value)">
+    <button class="btn btn-search margin-left--12" (click)="resetArrayPagination();getAllAdmins(search.value)"><i class="fas fa-search"></i></button>
+  </div>
+</div>
+
+<div class="row margin-bottom--15">
+  <div class="col-md-12 padding-left--0 padding-right--0">
+    <div class="table-information full-width margin-bottom--24">
+      <div class="head">
+        <div class="row-table d-flex">
+          <div class="column-table" style="width: 20%">Name</div>
+          <div class="column-table" style="width: 20%">Surname</div>
+          <div class="column-table" style="width: 20%">Role</div>
+          <div class="column-table" style="width: 25%">Email</div>
+          <div class="column-table d-flex--justify-center" style="width: 15%">Action</div>
+        </div>
+      </div>
+      <div class="body">
+        <div class="row-table" *ngFor="let admin of adminsList">
+          <input type="checkbox" class="accordions__checkbox" id="{{ admin?.id }}">
+          <label class="accordions__heading" for="{{ admin?.id }}">{{ admin?.firstName }} {{ admin?.lastName }} <span class="accordion-item-cta">&#9650;</span></label>
+          <div class="content-row d-flex accordions__content">
+            <div class="column-table acc border-right-table" style="width: 20%">
+              <div class="title-cell">Name</div>
+              <div class="description-cell">
+                <span>{{ admin?.firstName }}</span>
+              </div>
+            </div>
+            <div class="column-table acc border-right-table" style="width: 20%">
+              <div class="title-cell">Surname</div>
+              <div class="description-cell">
+                <span>{{ admin?.lastName }}</span>
+              </div>
+            </div>
+            <div class="column-table border-right-table" style="width: 20%">
+              <div class="title-cell">Role</div>
+              <div class="description-cell">
+                <span *ngFor="let role of admin.roles">
+                  {{ role }}
+                </span>
+              </div>
+            </div>
+            <div class="column-table border-right-table" style="width: 25%">
+              <div class="title-cell">Email</div>
+              <div class="description-cell">
+                <span>{{ admin?.email }}</span>
+              </div>
+            </div>
+            <div class="column-table button-cell" style="width: 15%">
+              <div class="title-cell"></div>
+              <div class="description-cell d-flex--align-center d-flex--justify-around">
+                <a class="view-popup-icon" (click)="openVerticallyCentered(editAdmin, admin)"><i class="fas fa-pencil-alt"></i></a>
+                <a class="view-popup-icon" (click)="deleteAdmin(admin, adminsList)"><i class="fas fa-times-circle"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row-table not-found-search" *ngIf="adminsList.length === 0">
+          <div class="content-row d-flex accordions__content">
+            <div class="column-table d-flex--justify-center" style="width: 100%">
+              <span>Admins not found</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <span *ngIf="loadMoreCheck && !paginationLoader" class="job-popup-delete" (click)="loadPagination(search.value)">Load more</span>
+    <div *ngIf="paginationLoader" class="loader-table margin-bottom--12" id="loader-6">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+</div>
+
+<h4 class="title-row margin-bottom--24">General Settings</h4>
+<h4 class="subtitle-row margin-bottom--24">CANDIDATE PROFILE</h4>
+<div class="candidate-profile-general margin-bottom--48">
+  <span>Allow Candidate to view & apply for Jobs without a video.</span>
+  <div class="switch__container">
+    <input id="switch-shadow" class="switch switch--shadow" type="checkbox" [(ngModel)]="allowVideo" (click)="updateAdminVideoStatusCandidate('allowVideo', allowVideo)">
+    <label for="switch-shadow"></label>
+  </div>
+</div>
+
+<div *ngIf="preloaderPage" id="preloader">
+  <div id="loader"></div>
+</div>
+
+<ng-template #editAdmin let-cb="close" let-db="dismiss">
+  <app-admin-edit-admin-popup [closePopup]="db"
+                              [selectedAdmin]="selectedAdmin"
+                              [adminsList]="adminsList"
+  ></app-admin-edit-admin-popup>
+</ng-template>
+
+<ng-template #createAdmin let-cv="close" let-dv="dismiss">
+  <app-admin-create-admin-popup [closePopup]="dv"
+                                [adminsList]="adminsList"
+  ></app-admin-create-admin-popup>
+</ng-template>

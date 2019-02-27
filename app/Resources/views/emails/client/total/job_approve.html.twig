@@ -1,0 +1,14 @@
+{% extends 'emails/base_email.html.twig' %}
+{% block body_html %}
+    Hi {{ firstName }}
+    <br><br>
+    {% for jobTitle in jobTitles %}
+        Thank you for loading the {{ jobTitle }} position on CAs Online.
+        <br><br>
+    {% endfor %}
+    Your job has been reviewed and has now been published by CAs Online. Please check your emails over the next few weeks or check your CAs Online profile for the newly qualified CA applicants.
+    <br><br>
+    To view your CAs Online dashboard please click <a href="{{ link }}">here</a>
+    <br><br>
+    Get hold of us on <a href="mailto:info@casonline.co.za">info@casonline.co.za</a> if you have any questions or feedback.
+{% endblock %}

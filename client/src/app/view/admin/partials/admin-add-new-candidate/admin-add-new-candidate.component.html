@@ -1,0 +1,631 @@
+<div class="title-description margin-bottom--32">
+  <h3 class="margin-bottom--24">Add new candidate</h3>
+</div>
+<div class="row">
+  <h4 class="title-row">Personal information</h4>
+</div>
+<div class="row">
+  <div class="custom-form">
+    <form [formGroup]="candidateForm">
+      <div class="row">
+        <div class="col-md-6 padding-left--0">
+          <div class="form-group list-input d-flex d-flex--align-center required-icon-content">
+            <input type="text" class="form-control input-form full-width" placeholder="First Name" formControlName="firstName">
+            <span class="required-icon">*</span>
+          </div>
+          <span class="help-box d-flex d-flex--justify-start margin-bottom--12" *ngIf="candidateForm.controls['firstName']?.errors?.required && candidateForm.controls['firstName'].touched">
+            First Name is required
+          </span>
+          <!-- First Name-->
+          <div class="last-mobile form-group list-input d-flex d-flex--align-center required-icon-content">
+            <span class="required-icon">*</span>
+            <input type="text" class="form-control input-form full-width" placeholder="Last Name" formControlName="lastName">
+          </div>
+          <span class="last-mobile help-box d-flex d-flex--justify-start margin-bottom--12" *ngIf="candidateForm.controls['lastName']?.errors?.required && candidateForm.controls['lastName'].touched">
+            Last Name is required
+          </span>
+          <!-- Last Name-->
+          <div class="form-group list-input d-flex d-flex--align-center required-icon-content">
+            <ng-select placeholder="Nationality" formControlName="nationality" [searchable]="false">
+              <!--<ng-option [value]="null">Nationality</ng-option>-->
+              <ng-option [value]="1">South African Citizen (BBBEE)</ng-option>
+              <ng-option [value]="2">South African Citizen (Non-BBBEE)</ng-option>
+              <ng-option [value]="3">Non-South African (With Permit)</ng-option>
+              <ng-option [value]="4">Non-South African (Without Permit)</ng-option>
+            </ng-select>
+            <span class="required-icon">*</span>
+          </div>
+          <span class="help-box d-flex d-flex--justify-start margin-bottom--12" *ngIf="candidateForm.controls['nationality']?.errors?.required && candidateForm.controls['nationality'].touched">
+            Nationality is required
+          </span>
+          <!-- Nationality -->
+          <div class="form-group list-input d-flex d-flex--align-center required-icon-content">
+            <ng-select placeholder="Ethnicity" formControlName="ethnicity" [searchable]="false">
+              <!--<ng-option [value]="null">Ethnicity</ng-option>-->
+              <ng-option [value]="'Black'">Black</ng-option>
+              <ng-option [value]="'Coloured'">Coloured</ng-option>
+              <ng-option [value]="'Indian'">Indian</ng-option>
+              <ng-option [value]="'Oriental'">Oriental</ng-option>
+              <ng-option [value]="'White'">White</ng-option>
+            </ng-select>
+            <span class="required-icon">*</span>
+          </div>
+          <span class="help-box d-flex d-flex--justify-start margin-bottom--12" *ngIf="candidateForm.controls['ethnicity']?.errors?.required && candidateForm.controls['ethnicity'].touched">
+            Ethnicity is required
+          </span>
+          <!-- Ethnicity -->
+          <div class="form-group list-input d-flex d-flex--align-center required-icon-content">
+            <ng-select placeholder="Board Exams" formControlName="boards" [searchable]="false">
+              <!--<option value="">Board Exams</option>-->
+              <ng-option [value]="1">Passed Both Board Exams First Time</ng-option>
+              <ng-option [value]="2">Passed Both Board Exams</ng-option>
+              <ng-option [value]="3">ITC passed, APC Outstanding</ng-option>
+              <ng-option [value]="4">ITC Outstanding</ng-option>
+            </ng-select>
+            <span class="required-icon">*</span>
+          </div>
+          <span class="help-box d-flex d-flex--justify-start margin-bottom--12" *ngIf="candidateForm.controls['boards']?.errors?.required && candidateForm.controls['boards'].touched">
+            Board Exams is required
+          </span>
+          <!-- Broads -->
+          <div class="form-group list-input d-flex d-flex--align-center required-icon-content">
+            <ng-select placeholder="Articles Firm" #label formControlName="articlesFirm" [searchable]="false" (change)="checkStatusArticlesFirm(label.selectedValues[0])">
+              <ng-option *ngFor="let c of articles" [value]="c">{{ c }}</ng-option>
+            </ng-select>
+            <span class="required-icon">*</span>
+          </div>
+          <span class="help-box d-flex d-flex--justify-start margin-bottom--12" *ngIf="candidateForm.controls['articlesFirm']?.errors?.required && candidateForm.controls['articlesFirm'].touched">
+            Articles Firm is required
+          </span>
+          <!-- Article firms -->
+          <div *ngIf="articlesOther" class="form-group list-input d-flex d-flex--align-center required-icon-content">
+            <input type="text" class="form-control input-form full-width" placeholder="Articles Firm Name" formControlName="articlesFirmName">
+            <span class="required-icon">*</span>
+          </div>
+          <span class="help-box d-flex d-flex--justify-start margin-bottom--12" *ngIf="candidateForm.controls['articlesFirmName'].invalid && candidateForm.controls['articlesFirmName'].touched">
+            Articles Firm Name is required
+          </span>
+          <!-- Articles Firm Name -->
+          <div class="form-group list-input d-flex d-flex--align-center required-icon-content">
+            <ng-select placeholder="Gender" formControlName="gender" [searchable]="false">
+              <!--<ng-option [value]=null>Gender</ng-option>-->
+              <ng-option [value]="'Male'">Male</ng-option>
+              <ng-option [value]="'Female'">Female</ng-option>
+            </ng-select>
+            <span class="required-icon">*</span>
+          </div>
+          <span class="help-box d-flex d-flex--justify-start margin-bottom--12" *ngIf="candidateForm.controls['gender']?.errors?.required && candidateForm.controls['gender'].touched">
+            Gender is required
+          </span>
+          <!-- Gender -->
+          <div class="form-group list-input d-flex d-flex--align-center">
+            <input type="text" class="form-control input-form full-width" id="idn" placeholder="ID Number" formControlName="idNumber">
+            <span id="debug"></span>
+          </div>
+          <span class="help-box d-flex d-flex--justify-start margin-bottom--12" *ngIf="candidateForm.controls['idNumber']?.errors?.invalidIdNumber && candidateForm.controls['idNumber'].touched">
+            {{ candidateForm.controls['idNumber']?.errors?.invalidIdNumber }}
+          </span>
+          <span class="help-box d-flex d-flex--justify-start margin-bottom--12" *ngIf="candidateForm.controls['idNumber']?.errors?.invalidIdLength && candidateForm.controls['idNumber'].touched">
+            {{ candidateForm.controls['idNumber']?.errors?.invalidIdLength }}
+          </span>
+          <span class="help-box d-flex d-flex--justify-start margin-bottom--12" *ngIf="candidateForm.controls['idNumber']?.errors?.invalidDateInLastSixDigits && candidateForm.controls['idNumber'].touched">
+            {{ candidateForm.controls['idNumber']?.errors?.invalidDateInLastSixDigits }}
+          </span>
+          <span class="help-box d-flex d-flex--justify-start margin-bottom--12" *ngIf="candidateForm.controls['idNumber']?.errors?.invalidThirdToLast && candidateForm.controls['idNumber'].touched">
+            {{ candidateForm.controls['idNumber']?.errors?.invalidThirdToLast }}
+          </span>
+          <span class="help-box d-flex d-flex--justify-start margin-bottom--12" *ngIf="candidateForm.controls['idNumber']?.errors?.invalidSecondToLastDigit && candidateForm.controls['idNumber'].touched">
+            {{ candidateForm.controls['idNumber']?.errors?.invalidSecondToLastDigit }}
+          </span>
+          <span class="help-box d-flex d-flex--justify-start margin-bottom--12" *ngIf="candidateForm.controls['idNumber']?.errors?.invalidCheckbit && candidateForm.controls['idNumber'].touched">
+            {{ candidateForm.controls['idNumber']?.errors?.invalidCheckbit }}
+          </span>
+          <!-- ID Number -->
+          <div class="input-group list-input d-flex d-flex--align-center right-calendar display-year">
+            <label class="text-desc">Date of birth</label>
+            <input class="form-control input-form" placeholder="Date of birth" ngx-mydatepicker name="dateOfBirth" formControlName="dateOfBirth" [options]="myOptionsDate" #dp3="ngx-mydatepicker" />
+            <span class="input-group-btn margin-right--12">
+              <button type="button" class="btn btn-default top--0" (click)="dp3.toggleCalendar()">
+                <i class="fa fa-calendar" aria-hidden="true"></i>
+              </button>
+            </span>
+          </div>
+          <span class="help-box d-flex d-flex--justify-start margin-bottom--12" *ngIf="candidateForm.controls['dateOfBirth'].invalid && candidateForm.controls['dateOfBirth'].touched">
+            Date of Birth invalid
+          </span>
+          <!-- Date of birth -->
+        </div>
+        <div class="col-md-6 padding-right--0">
+          <div class="last-mobile-end form-group list-input d-flex d-flex--align-center required-icon-content">
+            <input type="text" class="form-control input-form full-width" placeholder="Last Name" formControlName="lastName">
+            <span class="required-icon">*</span>
+          </div>
+          <span class="last-mobile-end help-box d-flex d-flex--justify-start margin-bottom--12" *ngIf="candidateForm.controls['lastName']?.errors?.required && candidateForm.controls['lastName'].touched">
+            Last Name is required
+          </span>
+          <!-- Last Name-->
+          <div class="form-group input-group list-input d-flex d-flex--align-center right-calendar display-year required-icon-content">
+            <label class="text-desc">Date articles completed <span class="required-icon" style="position: relative; top: -3px; right: 0px;">*</span></label>
+            <input class="form-control input-form select-form" placeholder="Date articles completed" ngx-mydatepicker name="dateArticlesCompleted" formControlName="dateArticlesCompleted" [options]="myOptionsDate" #dp1="ngx-mydatepicker" />
+            <span class="input-group-btn margin-right--12">
+              <button type="button" class="btn btn-default top--0 " (click)="dp1.toggleCalendar()">
+                <i class="fa fa-calendar" aria-hidden="true"></i>
+              </button>
+            </span>
+          </div>
+          <!--<span class="help-box d-flex d-flex&#45;&#45;justify-start margin-bottom&#45;&#45;12" *ngIf="candidateForm.controls['dateArticlesCompleted'].invalid && candidateForm.controls['dateArticlesCompleted'].touched">-->
+            <!--Date articles completed invalid-->
+          <!--</span>-->
+          <span class="help-box d-flex d-flex--justify-start margin-bottom--12" *ngIf="candidateForm.controls['dateArticlesCompleted']?.errors?.required && candidateForm.controls['dateArticlesCompleted'].touched">
+            Date articles completed is required
+          </span>
+          <!-- Date articles completed-->
+          <div class="form-group list-input d-flex d-flex--align-center required-icon-content">
+            <ng-select placeholder="SAICA Status" #saica formControlName="saicaStatus" [searchable]="false" (change)="checkSaicaStatus(saica.selectedValues[0])">
+              <ng-option [value]="1">Registered CA</ng-option>
+              <ng-option [value]="2">Eligible to register as a CA</ng-option>
+              <ng-option [value]="3">Completing articles whereafter I will register</ng-option>
+            </ng-select>
+            <span class="required-icon">*</span>
+          </div>
+          <span class="help-box d-flex d-flex--justify-start margin-bottom--12" *ngIf="candidateForm.controls['saicaStatus'].invalid && candidateForm.controls['saicaStatus'].touched">
+            SAICA Status is required
+          </span>
+          <!-- SAICA status -->
+          <div *ngIf="saicaStatus" class="form-group list-input d-flex d-flex--align-center required-icon-content">
+            <input type="text" class="form-control input-form full-width" placeholder="SAICA Number" formControlName="saicaNumber">
+            <span class="required-icon">*</span>
+          </div>
+          <span class="help-box d-flex d-flex--justify-start margin-bottom--12" *ngIf="candidateForm.controls['saicaNumber'].invalid && candidateForm.controls['saicaNumber'].touched">
+            SAICA Number is required
+          </span>
+          <!-- SAICA Number -->
+          <div class="form-group list-input d-flex d-flex--align-center required-icon-content">
+            <input type="text" class="form-control input-form full-width" placeholder="Most recent role" formControlName="mostRole">
+            <span class="required-icon">*</span>
+          </div>
+          <span class="help-box d-flex d-flex--justify-start margin-bottom--12" *ngIf="candidateForm.controls['mostRole']?.errors?.required && candidateForm.controls['mostRole'].touched">
+            Most recent role is required
+          </span>
+          <!-- Most recent role -->
+          <div class="form-group list-input d-flex d-flex--align-center required-icon-content">
+            <input type="text" class="form-control input-form full-width" placeholder="Most recent employer" formControlName="mostEmployer">
+            <span class="required-icon">*</span>
+          </div>
+          <span class="help-box d-flex d-flex--justify-start margin-bottom--12" *ngIf="candidateForm.controls['mostEmployer']?.errors?.required && candidateForm.controls['mostEmployer'].touched">
+            Most recent employer is required
+          </span>
+          <!-- Most recent employer -->
+          <div class="form-group list-input d-flex d-flex--align-center">
+            <!--<ng-select placeholder="Cost to company" formControlName="costToCompany" [searchable]="false">
+              &lt;!&ndash;<option value="null">Cost to company</option>&ndash;&gt;
+              <ng-option [value]="0">Newly qualified CA salary</ng-option>
+              <ng-option [value]="1">R650k - R800k</ng-option>
+              <ng-option [value]="2">R800k - R1m</ng-option>
+              <ng-option [value]="3">> R1m</ng-option>
+            </ng-select>-->
+          </div>
+          <!-- Most recent annual cost to company -->
+          <div class="form-group list-input d-flex d-flex--align-center d-flex--justify-between">
+            <label class="text-desc">Criminal Convictions?</label>
+            <div class="col-md-6 d-flex d-flex--justify-end padding-right--0">
+              <div class="switch__container">
+                <input id="switch-shadow" class="switch switch--shadow" formControlName="criminal" type="checkbox" [(ngModel)]="candidateForm.value.criminal" (click)="criminalValue()">
+                <label for="switch-shadow"></label>
+              </div>
+            </div>
+          </div>
+          <!-- Criminal Convictions -->
+          <div *ngIf="candidateForm.value.criminal" class="form-group list-input d-flex d-flex--align-center">
+            <textarea formControlName="criminalDescription" type="text" class="form-control input-form full-width" placeholder="Criminal Conviction"></textarea>
+          </div>
+          <div class="form-group list-input d-flex d-flex--align-center d-flex--justify-between">
+            <label class="text-desc">Credit History?</label>
+            <div class="col-md-6 d-flex d-flex--justify-end padding-right--0">
+              <div class="switch__container">
+                <input id="switch-shadow1" class="switch switch--shadow" formControlName="credit" type="checkbox" [(ngModel)]="candidateForm.value.credit" (click)="creditValue()">
+                <label for="switch-shadow1"></label>
+              </div>
+            </div>
+          </div>
+          <!-- Credit History -->
+          <div *ngIf="candidateForm.value.credit" class="form-group list-input d-flex d-flex--align-center">
+            <textarea formControlName="creditDescription" type="text" class="form-control input-form full-width" placeholder="Credit History"></textarea>
+          </div>
+          <div class="form-group list-input d-flex d-flex--align-center">
+            <textarea class="form-control input-form full-width" placeholder="Other Qualifications" formControlName="otherQualifications"></textarea>
+          </div>
+          <!-- Qualifications -->
+        </div>
+      </div>
+      <div class="border-bottom progress-info margin-bottom--32"></div>
+      <div class="row margin-bottom--18">
+        <h4 class="title-row">Personal Contact Details</h4>
+      </div>
+      <div class="row">
+        <div class="col-md-6 padding-left--0">
+          <div class="form-group list-input d-flex d-flex--align-center required-icon-content">
+            <input type="text" class="form-control input-form full-width" placeholder="Personal Email" formControlName="email">
+            <span class="required-icon">*</span>
+          </div>
+          <span class="help-box d-flex d-flex--justify-start margin-bottom--12" *ngIf="candidateForm.controls['email']?.errors?.required && candidateForm.controls['email'].touched">
+            Email is required
+          </span>
+          <!-- Email -->
+        </div>
+        <div class="col-md-6 padding-right--0">
+          <div class="form-group list-input d-flex d-flex--align-center phone-content-code required-icon-content">
+            <int-phone-prefix [defaultCountry]="'za'" class="phone-number" formControlName="phone"></int-phone-prefix>
+            <span class="required-icon">*</span>
+          </div>
+          <span class="help-box d-flex d-flex--justify-start margin-bottom--12" *ngIf="candidateForm.controls['phone']?.errors?.validNumber && candidateForm.controls['phone'].touched">
+            Please enter a valid contact number
+          </span>
+          <!--<span class="help-box d-flex d-flex&#45;&#45;justify-start margin-bottom&#45;&#45;12" *ngIf="candidateForm.controls['phone']?.errors?.required && candidateForm.controls['phone'].touched">
+            Please enter a valid contact number
+          </span>-->
+          <!-- Phone -->
+        </div>
+      </div>
+      <!-- first row contact details -->
+      <div class="row">
+        <div class="col-md-12 padding-left--0 padding-right--0">
+          <div class="form-group list-input d-flex d-flex--align-center required-icon-content">
+            <input type="text" class="form-control address-input input-form full-width" placeholder="Personal Address" formControlName="homeAddress" id="search1">
+            <span class="required-icon">*</span>
+          </div>
+          <span class="help-box d-flex d-flex--justify-start margin-bottom--12" *ngIf="candidateForm.controls['homeAddress']?.errors?.required && candidateForm.controls['homeAddress'].touched">
+            Personal Address is required
+          </span>
+          <!-- Address s-->
+        </div>
+      </div>
+      <!-- second row contact details -->
+      <div class="row">
+        <div class="col-md-6 padding-left--0">
+          <div class="form-group list-input d-flex d-flex--align-center">
+            <input type="text" class="form-control input-form full-width" id="street_number" placeholder="Street Number" formControlName="addressStreetNumber">
+          </div>
+          <!-- Street Number -->
+        </div>
+        <div class="col-md-6 padding-right--0">
+          <div class="form-group list-input d-flex d-flex--align-center">
+            <input type="text" class="form-control input-form full-width" id="route" placeholder="Street" formControlName="addressStreet">
+          </div>
+          <!-- Street -->
+        </div>
+      </div>
+      <!-- third row contact details -->
+      <div class="row">
+        <div class="col-md-6 padding-left--0">
+          <div class="form-group list-input d-flex d-flex--align-center">
+            <input type="text" class="form-control input-form full-width" id="locality" placeholder="City" formControlName="addressCity">
+          </div>
+          <!-- City -->
+        </div>
+        <div class="col-md-6 padding-right--0">
+          <div class="form-group list-input d-flex d-flex--align-center">
+            <input type="text" class="form-control input-form full-width" id="sublocality_level_2" placeholder="Suburb" formControlName="addressSuburb">
+          </div>
+          <!-- Suburb -->
+        </div>
+      </div>
+      <!-- fourth row contact details -->
+      <div class="row">
+        <div class="col-md-6 padding-left--0">
+          <div class="form-group list-input d-flex d-flex--align-center">
+            <input type="text" class="form-control input-form full-width" id="administrative_area_level_1" placeholder="Province" formControlName="addressState">
+          </div>
+          <!-- State -->
+        </div>
+        <div class="col-md-6 padding-right--0">
+          <div class="form-group list-input d-flex d-flex--align-center">
+            <input type="text" class="form-control input-form full-width" id="postal_code" placeholder="Postal code" formControlName="addressZipCode">
+          </div>
+          <!-- Zip Code -->
+        </div>
+      </div>
+      <!-- fifth row contact details -->
+      <div class="row">
+        <div class="col-md-6 padding-left--0">
+          <div class="form-group list-input d-flex d-flex--align-center">
+            <input type="text" class="form-control input-form full-width" id="country" placeholder="Country" formControlName="addressCountry">
+          </div>
+          <!-- Country -->
+        </div>
+        <div class="col-md-6 padding-right--0">
+          <div class="form-group list-input d-flex d-flex--align-center">
+            <input type="text" class="form-control input-form full-width" placeholder="Unit" formControlName="addressUnit">
+          </div>
+          <!-- Unit -->
+        </div>
+      </div>
+      <!-- sixth row contact details -->
+      <div class="border-bottom progress-info margin-bottom--32"></div>
+      <div class="row margin-bottom--18">
+        <h4 class="title-row">Job Availablity</h4>
+      </div>
+      <div class="row">
+        <div class="col-md-6 padding-left--0">
+          <div class="form-group list-input d-flex d-flex--align-center d-flex--justify-between">
+            <label class="text-desc">Are you available Immediately <span class="required-icon" style="position: relative; top: -3px; right: 0px;">*</span></label>
+            <div class="col-md-6 d-flex d-flex--justify-end padding-right--0">
+              <div class="switch__container">
+                <input id="switch-shadow2" class="switch switch--shadow" formControlName="availability" type="checkbox" [(ngModel)]="candidateForm.value.availability" (click)="availableValue(candidateForm.value.availability)">
+                <label for="switch-shadow2"></label>
+              </div>
+            </div>
+          </div>
+          <!-- Available immediately -->
+        </div>
+      </div>
+      <!-- first row job availablity --><div class="row" [hidden]="(candidateForm.value.availability != false)">
+      <div class="col-md-6 padding-left--0">
+        <div class="form-group input-group list-input d-flex d-flex--align-center d-flex--justify-between required-icon-content">
+          <label class="text-desc">When are you available? <span class="required-icon" style="position: relative; top: -3px; right: 0px;">*</span></label>
+          <ng-select placeholder="Availability period" class="half-width-select" #availabilityPeriod (change)="checkAvailabilityPeriod(availabilityPeriod.selectedValues[0])" formControlName="availabilityPeriod" [searchable]="false">
+            <ng-option [value]="1">30 Day notice period</ng-option>
+            <ng-option [value]="2">60 Day notice period</ng-option>
+            <ng-option [value]="3">90 Day notice period</ng-option>
+            <ng-option [value]="4">I can provide a specific date</ng-option>
+          </ng-select>
+        </div>
+        <span class="help-box d-flex d-flex--justify-start margin-bottom--12" *ngIf="checksAvailabilityPeriod === true">
+          Availability Period is required
+        </span>
+      </div>
+    </div>
+      <!-- second row job availablity -->
+      <div class="row" [hidden]="availabilityPeriodStatus !== true">
+        <div class="col-md-6 padding-left--0">
+          <div class="input-group form-group list-input d-flex d-flex--align-center right-calendar display-year required-icon-content">
+            <label class="text-desc">When are you available? <span class="required-icon" style="position: relative; top: -3px; right: 0px;">*</span></label>
+            <input class="form-control input-form" placeholder="Date available" ngx-mydatepicker name="dateAvailability" formControlName="dateAvailability" [options]="myOptionsDate" #dp2="ngx-mydatepicker" />
+            <span class="input-group-btn margin-right--12">
+              <button type="button" class="btn btn-default top--0" (click)="dp2.toggleCalendar()">
+                <i class="fa fa-calendar" aria-hidden="true"></i>
+              </button>
+            </span>
+          </div>
+          <span class="help-box d-flex d-flex--justify-start margin-bottom--12" *ngIf="checksAvailabilityDate && !candidateForm.controls['dateAvailability'].value || candidateForm.controls['dateAvailability'].invalid && !candidateForm.controls['dateAvailability']?.errors?.validAvailabilityDate && candidateForm.controls['dateAvailability'].touched">
+            Date availability is required
+          </span>
+          <span class="help-box d-flex d-flex--justify-start margin-bottom--12" *ngIf="candidateForm.controls['dateAvailability']?.errors?.validAvailabilityDate && candidateForm.controls['dateAvailability'].touched">
+            That date is in the past, please select another, future date.
+          </span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6 padding-left--0">
+          <div class="form-group list-input d-flex d-flex--align-center d-flex--justify-between required-icon-content">
+            <label class="text-desc">Cities you would consider working in: <span class="required-icon" style="position: relative; top: -3px; right: 0px;">*</span></label>
+            <ss-multiselect-dropdown class="input-form half-width padding--0 border--none"
+                                     [settings]="articlesFirmSettings"
+                                     [texts]="articlesFirmTextConfig"
+                                     [options]="myOptions"
+                                     [(ngModel)]="optionsModel"
+                                     formControlName="citiesWorking"
+            ></ss-multiselect-dropdown>
+          </div>
+          <span class="help-box d-flex d-flex--justify-start margin-bottom--12" *ngIf="candidateForm.controls['citiesWorking']?.errors?.required && candidateForm.controls['citiesWorking'].touched">
+            Cities you would consider working in is required
+          </span>
+        </div>
+      </div>
+      <!-- third row job availablity -->
+      <div class="border-bottom progress-info"></div>
+      <div class="row margin-bottom--18">
+        <h4 class="title-row">Upload</h4>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="form-group d-flex d-flex--direction-column d-flex--justify-center d-flex--align-center">
+            <div class="profile-img d-flex d-flex--justify-center" *ngFor="let picture of profilePicture">
+              <img src="{{ picture.url }}">
+            </div>
+            <div *ngIf="profilePicture.length === 0 || profilePicture === null" class="profile-img d-flex d-flex--justify-center">
+              <img src="/assets/img/placeholders/default_avatar.jpg">
+            </div>
+            <div *ngIf="preloaderPicture" class="profile-img margin-bottom--0 position--absolute">
+              <div id="preloader1">
+                <div id="loader1"></div>
+              </div>
+            </div>
+            <div class="custom-upload margin-bottom--18">
+              <label class="btn primary-button" for="file9" data-element="custom-upload-button">Upload photo</label>
+              <input class="custom-upload__input" #picture id="file9" type="file" data-behaviour="custom-upload-input" value="" (change)="uploadPicture($event)"/>
+            </div>
+            <!--<input type="file" #picture class="form-control" placeholder="Upload Profile" (change)="updateCandidateProfile()">-->
+            <a *ngIf="profilePicture.length > 0" class="job-popup-delete" (click)="removePicture()">Delete picture</a>
+          </div>
+        </div>
+        <div class="col-md-8 file-upload-block padding-right--0">
+          <div class="form-group d-flex d-flex--align-start">
+            <div class="container padding-left--0 padding-right--0">
+              <div class="row">
+                <div class="col-md-3 padding-left--0 required-icon-content">
+                  <label class="title-upload text-desc">CV</label>
+                  <span class="required-icon cv-files">*</span>
+                </div>
+                <div class="col-md-4">
+                  <div class="custom-upload">
+                    <label *ngIf="cvFilesArray.length > 0 && cvFilesArray !== null" class="btn-interview" for="file4" data-element="custom-upload-button"><i class="fas fa-upload"></i> Upload another file</label>
+                    <label *ngIf="cvFilesArray.length === 0 || cvFilesArray === null" class="btn-interview" for="file4" data-element="custom-upload-button"><i class="fas fa-upload"></i> Browse & upload</label>
+                    <input class="custom-upload__input" #cvFiles id="file4" type="file" data-behaviour="custom-upload-input" value="" (change)="uploadFiles('cvFilesArray', $event)"/>
+                  </div>
+                  <!--<input type="file" multiple #cvFiles class="form-control">-->
+                </div>
+                <div class="col-md-5 padding-right--0 d-flex d-flex--align-center d-flex--justify-end">
+                  <div class="file-container">
+                    <div class="file-info d-flex d-flex--justify-end" *ngFor="let name of cvFilesArray; let i = index">
+                      <span>{{ name.name }}</span>
+                      <button class="btn btn-default margin-left--12" (click)="removeFile('cvFilesArray', i)"><span>x</span></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- CV Files -->
+          <div class="form-group d-flex d-flex--align-start">
+            <div class="container padding-left--0 padding-right--0">
+              <div class="row">
+                <div class="col-md-3 padding-left--0">
+                  <label class="title-upload text-desc">Matric Certificate</label>
+                </div>
+                <div class="col-md-4">
+                  <div class="custom-upload">
+                    <label *ngIf="matricCertificateArray.length > 0 && matricCertificateArray !== null" class="btn-interview" for="file" data-element="custom-upload-button"><i class="fas fa-upload"></i> Upload another file</label>
+                    <label *ngIf="matricCertificateArray.length === 0 || matricCertificateArray === null" class="btn-interview" for="file" data-element="custom-upload-button"><i class="fas fa-upload"></i> Browse & upload</label>
+                    <input class="custom-upload__input" #matricCertificate id="file" type="file" data-behaviour="custom-upload-input" value="" multiple (change)="uploadFiles('matricCertificateArray', $event)"/>
+                  </div>
+                  <!--<input type="file" multiple #matricCertificate class="form-control">-->
+                </div>
+                <div class="col-md-5 padding-right--0 d-flex d-flex--align-center d-flex--justify-end">
+                  <div class="file-container">
+                    <div class="file-info d-flex d-flex--justify-end" *ngFor="let name of matricCertificateArray; let i = index">
+                      <span>{{name.name}}</span>
+                      <button class="btn btn-default margin-left--12" (click)="removeFile('matricCertificateArray', i)"><span>x</span></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Matric Certificate -->
+          <div class="form-group d-flex d-flex--align-start">
+            <div class="container padding-left--0 padding-right--0">
+              <div class="row">
+                <div class="col-md-3 padding-left--0">
+                  <label class="title-upload text-desc">Tertiary Certificate</label>
+                </div>
+                <div class="col-md-4">
+                  <div class="custom-upload">
+                    <label *ngIf="tertiaryCertificateArray.length > 0 && tertiaryCertificateArray !== null" class="btn-interview" for="file1" data-element="custom-upload-button"><i class="fas fa-upload"></i> Upload another file</label>
+                    <label *ngIf="tertiaryCertificateArray.length === 0 || tertiaryCertificateArray === null" class="btn-interview" for="file1" data-element="custom-upload-button"><i class="fas fa-upload"></i> Browse & upload</label>
+                    <input class="custom-upload__input" #tertiaryCertificate id="file1" type="file" data-behaviour="custom-upload-input" value="" multiple (change)="uploadFiles('tertiaryCertificateArray', $event)"/>
+                  </div>
+                  <!--<input type="file" multiple #tertiaryCertificate class="form-control">-->
+                </div>
+                <div class="col-md-5 padding-right--0 d-flex d-flex--align-center d-flex--justify-end">
+                  <div class="file-container">
+                    <div class="file-info d-flex d-flex--justify-end" *ngFor="let name of tertiaryCertificateArray; let i = index">
+                      <span>{{name.name}}</span>
+                      <button class="btn btn-default margin-left--12" (click)="removeFile('tertiaryCertificateArray', i)"><span>x</span></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Tertiary Certificate -->
+          <div class="form-group d-flex d-flex--align-start">
+            <div class="container padding-left--0 padding-right--0">
+              <div class="row">
+                <div class="col-md-3 padding-left--0">
+                  <label class="title-upload text-desc">University Manuscript</label>
+                </div>
+                <div class="col-md-4">
+                  <div class="custom-upload">
+                    <label *ngIf="universityManuscriptArray.length > 0 && universityManuscriptArray !== null" class="btn-interview" for="file2" data-element="custom-upload-button"><i class="fas fa-upload"></i> Upload another file</label>
+                    <label *ngIf="universityManuscriptArray.length === 0 || universityManuscriptArray === null" class="btn-interview" for="file2" data-element="custom-upload-button"><i class="fas fa-upload"></i> Browse & upload</label>
+                    <input class="custom-upload__input" #universityManuscript id="file2" type="file" data-behaviour="custom-upload-input" value="" multiple (change)="uploadFiles('universityManuscriptArray', $event)"/>
+                  </div>
+                  <!--<input type="file" multiple #universityManuscript class="form-control">-->
+                </div>
+                <div class="col-md-5 padding-right--0 d-flex d-flex--align-center d-flex--justify-end">
+                  <div class="file-container">
+                    <div class="file-info d-flex d-flex--justify-end" *ngFor="let name of universityManuscriptArray; let i = index">
+                      <span>{{name.name}}</span>
+                      <button class="btn btn-default margin-left--12" (click)="removeFile('universityManuscriptArray', i)"><span>x</span></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- University Manuscript -->
+          <div class="form-group d-flex d-flex--align-start">
+            <div class="container padding-left--0 padding-right--0">
+              <div class="row">
+                <div class="col-md-3 padding-left--0">
+                  <label class="title-upload text-desc">Credit / Qualification or Criminal Check</label>
+                </div>
+                <div class="col-md-4">
+                  <div class="custom-upload">
+                    <label *ngIf="creditCheckArray.length > 0 && creditCheckArray !== null" class="btn-interview" for="file3" data-element="custom-upload-button"><i class="fas fa-upload"></i> Upload another file</label>
+                    <label *ngIf="creditCheckArray.length === 0 || creditCheckArray === null" class="btn-interview" for="file3" data-element="custom-upload-button"><i class="fas fa-upload"></i> Browse & upload</label>
+                    <input class="custom-upload__input" #creditCheck id="file3" type="file" data-behaviour="custom-upload-input" value="" multiple (change)="uploadFiles('creditCheckArray', $event)"/>
+                  </div>
+                  <!--<input type="file" multiple #creditCheck class="form-control">-->
+                </div>
+                <div class="col-md-5 padding-right--0 d-flex d-flex--align-center d-flex--justify-end">
+                  <div class="file-container">
+                    <div class="file-info d-flex d-flex--justify-end" *ngFor="let name of creditCheckArray; let i = index">
+                      <span>{{ name.name }}</span>
+                      <button class="btn btn-default margin-left--12" (click)="removeFile('creditCheckArray', i)"><span>x</span></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Credit Check -->
+          <div class="form-group list-input d-flex d-flex--align-center link-direction">
+            <div class="col-md-6 list-input d-flex d-flex--align-center d-flex--justify-between padding-left--0">
+              <label class="text-desc d-flex d-flex--align-center" style="height: 47px; width: 80%;">Do you have a LinkedIn Profile?</label>
+              <div class="d-flex d-flex--justify-end padding-right--0">
+                <div class="switch__container">
+                  <input id="switch-shadow5" class="switch switch--shadow" formControlName="linkedinCheck" type="checkbox" [(ngModel)]="candidateForm.value.linkedinCheck" (click)="linkedinValue()">
+                  <label for="switch-shadow5"></label>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="candidateForm.value.linkedinCheck" class="d-flex d-flex--align-center d-flex--justify-between col-md-6 padding-right--0">
+              <input type="text" class="form-control input-form" placeholder="Enter URL" formControlName="linkedinUrl">
+            </div>
+          </div>
+          <!-- Linkedin Url -->
+        </div>
+      </div>
+      <div class="border-bottom progress-info"></div>
+      <div class="row margin-bottom--18">
+        <h4 class="title-row">Video</h4>
+      </div>
+      <div class="row">
+        <div class="col-md-6 padding-left--0 padding-right--0">
+          <div class="form-group d-flex d-flex--justify-start d-flex--align-center d-flex--direction-column">
+            <div class="candidate-video margin-bottom--12" *ngIf="profileVideo">
+              <video #videoPlayer width="100%" height="100%" controls style="max-height:600px;">
+                <source src="{{ profileVideo.name }}" type="video/mp4">
+                <source src="{{ profileVideo.name }}" type="video/ogg">
+              </video>
+            </div>
+            <div class="custom-upload margin-bottom--18 d-flex d-flex--align-center d-flex--justify-between full-width">
+              <label class="btn primary-button" for="video" data-element="custom-upload-button">Upload video</label>
+              <input class="custom-upload__input" #video id="video" type="file"  accept="video/mp4,video/x-m4v,video/*" data-behaviour="custom-upload-input" value="" (change)="uploadVideo($event)"/>
+              <label *ngIf="profileVideo" class="button-file-upload d-flex d-flex--justify-end margin-bottom--0">
+                <span (click)="removeVideo()" class="job-popup-delete margin-bottom--0">Delete video</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="border-bottom progress-info margin-bottom--32"></div>
+      <div class="row margin-bottom--24">
+        <div class="col-md-12 d-flex d-flex--justify-center">
+          <button *ngIf="!buttonPreloader" class="btn primary-button position--relative" (click)="createCandidateProfile()">Add new candidate</button>
+          <button *ngIf="buttonPreloader" class="btn primary-button position--relative">
+            <div class="loader--tiny"></div>
+            Add new candidate
+          </button>
+        </div>
+      </div>
+      <div class="border-bottom progress-info margin-bottom--32"></div>
+    </form>
+    <!-- form candidate-->
+  </div>
+</div>
+<div *ngIf="preloaderPage" id="preloader">
+  <div id="loader"></div>
+</div>

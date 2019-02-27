@@ -1,0 +1,99 @@
+<div class="title-description margin-bottom--24">
+  <h3 class="margin-bottom--12">Activity</h3>
+  <p>This is a record of what has been going on in the Admin section. You can search for activity records via the search bar or filter per Timestamp, User and/or Action.</p>
+</div>
+<div class="row margin-top--18 margin-bottom--18 d-flex d-flex--align-center d-flex--justify-between">
+  <div class="col-md-4 d-flex d-flex--justify-start d-flex--align-center padding-right--0 padding-left--0">
+    <input type="text" class="input-form full-width padding-right--40" placeholder="Search activity" #search (keyup.enter)="resetArrayPagination();getAdminLogging(search.value, dateStart.value, dateEnd.value, 1)">
+    <button class="btn btn-search margin-left--12" (click)="resetArrayPagination();getAdminLogging(search.value, dateStart.value, dateEnd.value, 1)"><i class="fas fa-search"></i></button>
+  </div>
+  <div class="col-md-2 margin-bottom--18"></div>
+  <div class="col-md-6 d-flex padding-left--0 padding-right--0 d-flex--direction-column">
+    <div class="row filter-block-nav">
+      <div class="col-md-12 padding-left--0 d-flex d-flex--align-center padding-right--0">
+        <h4 class="subtitle-row margin-bottom--0 margin-right--18">Filter</h4>
+        <div class="input-group margin-right--12 display-year">
+          <input placeholder="Date Start" class="form-control input-form" ngx-mydatepicker #dateStart [options]="myOptionsDate" #dp1="ngx-mydatepicker" />
+          <span class="input-group-btn margin-right--12">
+            <button type="button" class="btn btn-default" (click)="dp1.toggleCalendar()">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+            </button>
+          </span>
+        </div>
+        <div class="input-group display-year">
+          <input placeholder="Date End" class="form-control input-form" ngx-mydatepicker #dateEnd [options]="myOptionsDate" #dp2="ngx-mydatepicker"  />
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-default" (click)="dp2.toggleCalendar()">
+              <i class="fa fa-calendar" aria-hidden="true"></i>
+            </button>
+          </span>
+        </div>
+        <button class="btn primary-button margin-left--12" (click)="resetArrayPagination();getAdminLogging(search.value, dateStart.value, dateEnd.value, 1)">Date apply</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row margin-bottom--18">
+  <div class="col-md-12 padding-right--0 padding-left--0">
+    <div class="table-information full-width margin-bottom--24">
+      <div class="head">
+        <div class="row-table d-flex">
+          <div class="column-table" style="width: 20%">Timestamp</div>
+          <div class="column-table" style="width: 20%">User</div>
+          <div class="column-table" style="width: 30%">Action</div>
+          <div class="column-table" style="width: 30%">Url</div>
+        </div>
+      </div>
+      <div class="body">
+        <div class="row-table" *ngFor="let logging of loggingList">
+          <input type="checkbox" class="accordions__checkbox" id="{{ logging?.id }}">
+          <label class="accordions__heading" for="{{ logging?.id }}">{{ logging?.firstName }} {{ logging?.lastName }} <span class="accordion-item-cta">&#9650;</span></label>
+          <div class="content-row d-flex accordions__content">
+            <div class="column-table border-right-table" style="width: 20%">
+              <div class="title-cell">Timestamp</div>
+              <div class="description-cell">
+                <span>{{ logging?.created | date:'h:mm d MMM y' }}</span>
+              </div>
+            </div>
+            <div class="column-table acc border-right-table" style="width: 20%">
+              <div class="title-cell">User</div>
+              <div class="description-cell">
+                <span>{{ logging?.firstName }} {{ logging?.lastName }}</span>
+              </div>
+            </div>
+            <div class="column-table border-right-table" style="width: 30%">
+              <div class="title-cell">Action</div>
+              <div class="description-cell">
+                <span>{{ logging?.action }}</span>
+              </div>
+            </div>
+            <div class="column-table" style="width: 30%">
+              <div class="title-cell">Url</div>
+              <div class="description-cell">
+                <span class="job-popup-delete table-delete margin-bottom--0" routerLink="{{ logging?.type | urlLogging }}">{{ logging?.type | urlLogging }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row-table not-found-search" *ngIf="loggingList.length === 0">
+          <div class="content-row d-flex accordions__content">
+            <div class="column-table d-flex--justify-center" style="width: 100%">
+              <span>Loggings not found</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <span *ngIf="loadMoreCheck && !paginationLoader" class="job-popup-delete" (click)="loadPagination()">Load more</span>
+    <div *ngIf="paginationLoader" class="loader-table margin-bottom--12" id="loader-6">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="preloaderPage" id="preloader">
+  <div id="loader"></div>
+</div>

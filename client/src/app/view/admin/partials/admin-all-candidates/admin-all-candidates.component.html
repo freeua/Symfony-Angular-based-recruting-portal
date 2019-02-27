@@ -1,0 +1,359 @@
+<div class="title-description margin-bottom--32">
+  <div class="row">
+    <div class="all-candidates col-md-12 padding-right--0 padding-left--0 d-flex d-flex--justify-between d-flex--align-center title-description">
+      <h3>CANDIDATES</h3>
+      <div class="sub-buttons-title d-flex d-flex--align-center">
+        <h4 class="job-popup-delete margin-bottom--0 margin-right--15" (click)="exportDataCSV(search.value, articlesFirmSelectedName, nationalityModel, ethnicityModel, genderModel, qualificationModel, locationModel, criminalModel, creditModel, availabilityModel, null, enabledModel, selectedDateStart, selectedDateEnd, profileModel)">Export CSV</h4>
+        <button class="btn primary-button float--right" routerLink="/admin/add_new_candidate">Add new candidate</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <h4 class="subtitle-row">All candidates</h4>
+</div>
+<div class="row margin-top--18 margin-bottom--18">
+  <div class="col-md-4 d-flex d-flex--justify-start d-flex--align-center padding-right--0 padding-left--0">
+    <input type="text" class="input-form full-width padding-right--40" placeholder="Search all Candidates" #search (keyup.enter)="resetArrayPagination();getAllCandidateList(search.value, articlesFirmSelectedName, nationalityModel, ethnicityModel, genderModel, qualificationModel, locationModel, criminalModel, creditModel, availabilityModel, null, enabledModel, selectedDateStart, selectedDateEnd, profileModel)">
+    <button class="btn btn-search margin-left--12" (click)="resetArrayPagination();getAllCandidateList(search.value, articlesFirmSelectedName, nationalityModel, ethnicityModel, genderModel, qualificationModel, locationModel, criminalModel, creditModel, availabilityModel, null, enabledModel, selectedDateStart, selectedDateEnd, profileModel)"><i class="fas fa-search"></i></button>
+  </div>
+</div>
+<div class="row margin-bottom--24 filter-title">
+  <div #filterItem (click)="openMoreFilters()" class="filter-item d-flex d-flex--justify-between full-width">
+    <span>filter candidates</span>
+    <a #openButton>Open more filters</a>
+  </div>
+</div>
+<div class="filter-background" #filterFont></div>
+<div class="row more-filter" #openFilters>
+  <div class="col-md-12 select-groups d-flex d-flex--align-center d-flex--justify-start d-flex--wrap">
+    <form [formGroup]="filterForm" class="d-flex--justify-between col-md-12 d-flex d-flex--align-center d-flex--wrap">
+      <div class="form-group margin-right--12 d-flex d-flex--direction-column">
+        <ss-multiselect-dropdown [options]="articlesFirmOptions"
+                                 [settings]="articlesFirmSettings"
+                                 [texts]="articlesFirmTextConfig"
+                                 [(ngModel)]="articlesFirmPredefined"
+                                 #articlesFirm
+                                 formControlName="articlesFirm"
+                                 (ngModelChange)="getAllCandidateListCount(search.value, articlesFirmSelectedName, nationalityModel, ethnicityModel, genderModel, qualificationModel, locationModel, criminalModel, creditModel, availabilityModel, null, enabledModel, selectedDateStart, selectedDateEnd, profileModel)"></ss-multiselect-dropdown>
+      </div>
+      <!-- articles firm -->
+      <div class="form-group margin-right--12 d-flex d-flex--direction-column">
+        <ss-multiselect-dropdown [options]="genderOptions"
+                                 [settings]="articlesFirmSettings"
+                                 [texts]="configGender"
+                                 [(ngModel)]="genderModel"
+                                 #gender
+                                 formControlName="gender"
+                                 (ngModelChange)="getAllCandidateListCount(search.value, articlesFirmSelectedName, nationalityModel, ethnicityModel, genderModel, qualificationModel, locationModel, criminalModel, creditModel, availabilityModel, null, enabledModel, selectedDateStart, selectedDateEnd, profileModel)"
+        ></ss-multiselect-dropdown>
+        <!--<ng-select placeholder="Gender" formControlName="gender" #gender [searchable]="false" (change)="getAllCandidateListCount(search.value, articlesFirmSelectedName, nationality.selectedValues[0], ethnicity.selectedValues[0], gender.selectedValues[0], qualification.selectedValues[0], location.selectedValues[0], criminal.selectedValues[0], credit.selectedValues[0], availability.selectedValues[0], null, enabled.selectedValues[0], selectedDateStart, selectedDateEnd, profileComplete.selectedValues[0])">
+          &lt;!&ndash;<ng-option [value]="null">Gender</ng-option>&ndash;&gt;
+          <ng-option [value]="'All'">All</ng-option>
+          <ng-option [value]="'Male'">Male</ng-option>
+          <ng-option [value]="'Female'">Female</ng-option>
+        </ng-select>-->
+      </div>
+      <!-- gender -->
+      <div class="form-group margin-right--12">
+        <ss-multiselect-dropdown [options]="qualificationOptions"
+                                 [settings]="articlesFirmSettings"
+                                 [texts]="configQualification"
+                                 [(ngModel)]="qualificationModel"
+                                 #qualification
+                                 formControlName="qualification"
+                                 (ngModelChange)="getAllCandidateListCount(search.value, articlesFirmSelectedName, nationalityModel, ethnicityModel, genderModel, qualificationModel, locationModel, criminalModel, creditModel, availabilityModel, null, enabledModel, selectedDateStart, selectedDateEnd, profileModel)"
+        ></ss-multiselect-dropdown>
+        <!--<ng-select placeholder="Qualification" formControlName="qualification" #qualification [searchable]="false" (change)="getAllCandidateListCount(search.value, articlesFirmSelectedName, nationality.selectedValues[0], ethnicity.selectedValues[0], gender.selectedValues[0], qualification.selectedValues[0], location.selectedValues[0], criminal.selectedValues[0], credit.selectedValues[0], availability.selectedValues[0], null, enabled.selectedValues[0], selectedDateStart, selectedDateEnd, profileComplete.selectedValues[0])">
+          &lt;!&ndash;<ng-option [value]="null">Qualification</ng-option>&ndash;&gt;
+          <ng-option [value]="'All'">All</ng-option>
+          <ng-option [value]="1">Newly qualified CA</ng-option>
+          <ng-option [value]="2">Part qualified CA</ng-option>
+        </ng-select>-->
+      </div>
+      <!-- qualification -->
+      <div class="form-group margin-right--12 d-flex d-flex--direction-column">
+        <ss-multiselect-dropdown [options]="nationalityOptions"
+                                 [settings]="articlesFirmSettings"
+                                 [texts]="configNationality"
+                                 [(ngModel)]="nationalityModel"
+                                 #nationality
+                                 formControlName="nationality"
+                                 (ngModelChange)="getAllCandidateListCount(search.value, articlesFirmSelectedName, nationalityModel, ethnicityModel, genderModel, qualificationModel, locationModel, criminalModel, creditModel, availabilityModel, null, enabledModel, selectedDateStart, selectedDateEnd, profileModel)"
+        ></ss-multiselect-dropdown>
+        <!--<ng-select placeholder="Nationality" formControlName="nationality" #nationality [searchable]="false" (change)="getAllCandidateListCount(search.value, articlesFirmSelectedName, nationality.selectedValues[0], ethnicity.selectedValues[0], gender.selectedValues[0], qualification.selectedValues[0], location.selectedValues[0], criminal.selectedValues[0], credit.selectedValues[0], availability.selectedValues[0], null, enabled.selectedValues[0], selectedDateStart, selectedDateEnd, profileComplete.selectedValues[0])">
+          &lt;!&ndash;<ng-option [value]="null">Nationality</ng-option>&ndash;&gt;
+          <ng-option [value]="'All'">All</ng-option>
+          <ng-option [value]="1">South African Citizen (BBBEE)</ng-option>
+          <ng-option [value]="2">South African Citizen (Non-BBBEE)</ng-option>
+          <ng-option [value]="3">Non-South African (With Permit)</ng-option>
+          <ng-option [value]="4">Non-South African (Without Permit)</ng-option>
+        </ng-select>-->
+      </div>
+      <!-- nationality -->
+      <div class="form-group margin-right--12 d-flex d-flex--direction-column">
+        <ss-multiselect-dropdown [options]="ethnicityOptions"
+                                 [settings]="articlesFirmSettings"
+                                 [texts]="configEthnicity"
+                                 [(ngModel)]="ethnicityModel"
+                                 #ethnicity
+                                 formControlName="ethnicity"
+                                 (ngModelChange)="getAllCandidateListCount(search.value, articlesFirmSelectedName, nationalityModel, ethnicityModel, genderModel, qualificationModel, locationModel, criminalModel, creditModel, availabilityModel, null, enabledModel, selectedDateStart, selectedDateEnd, profileModel)"
+        ></ss-multiselect-dropdown>
+        <!--<ng-select placeholder="Ethnicity" formControlName="ethnicity" #ethnicity [searchable]="false" (change)="getAllCandidateListCount(search.value, articlesFirmSelectedName, nationality.selectedValues[0], ethnicity.selectedValues[0], gender.selectedValues[0], qualification.selectedValues[0], location.selectedValues[0], criminal.selectedValues[0], credit.selectedValues[0], availability.selectedValues[0], null, enabled.selectedValues[0], selectedDateStart, selectedDateEnd, profileComplete.selectedValues[0])">
+          &lt;!&ndash;<ng-option [value]="">Ethnicity</ng-option>&ndash;&gt;
+          <ng-option [value]="'All'">All</ng-option>
+          <ng-option [value]="'Black'">Black</ng-option>
+          <ng-option [value]="'White'">White</ng-option>
+          <ng-option [value]="'Coloured'">Coloured</ng-option>
+          <ng-option [value]="'Indian'">Indian</ng-option>
+          <ng-option [value]="'Oriental'">Oriental</ng-option>
+        </ng-select>-->
+      </div>
+      <!-- ethnicity -->
+      <!--<div class="form-group margin-right&#45;&#45;12 d-flex&#45;&#45;direction-column">
+        <ng-select placeholder="Video" formControlName="video" #video [searchable]="false" (change)="getAllCandidateListCount(search.value, articlesFirmSelectedName, nationality.selectedValues[0], ethnicity.selectedValues[0], gender.selectedValues[0], qualification.selectedValues[0], location.selectedValues[0], criminal.selectedValues[0], credit.selectedValues[0], availability.selectedValues[0], null, enabled.selectedValues[0])">
+          &lt;!&ndash;<ng-option [value]="null">Video</ng-option>&ndash;&gt;
+          <ng-option [value]="0">All</ng-option>
+          <ng-option [value]="1">With video</ng-option>
+        </ng-select>
+      </div>-->
+      <!-- video -->
+      <div class="form-group d-flex--direction-column margin-right--12">
+        <ss-multiselect-dropdown [options]="locationOptions"
+                                 [settings]="articlesFirmSettings"
+                                 [texts]="configLocation"
+                                 [(ngModel)]="locationModel"
+                                 #location
+                                 formControlName="location"
+                                 (ngModelChange)="getAllCandidateListCount(search.value, articlesFirmSelectedName, nationalityModel, ethnicityModel, genderModel, qualificationModel, locationModel, criminalModel, creditModel, availabilityModel, null, enabledModel, selectedDateStart, selectedDateEnd, profileModel)"
+        ></ss-multiselect-dropdown>
+        <!--<ng-select placeholder="Location" formControlName="location" #location [searchable]="false" (change)="getAllCandidateListCount(search.value, articlesFirmSelectedName, nationality.selectedValues[0], ethnicity.selectedValues[0], gender.selectedValues[0], qualification.selectedValues[0], location.selectedValues[0], criminal.selectedValues[0], credit.selectedValues[0], availability.selectedValues[0], null, enabled.selectedValues[0], selectedDateStart, selectedDateEnd, profileComplete.selectedValues[0])">
+          &lt;!&ndash;<ng-option [value]="">Location</ng-option>&ndash;&gt;
+          <ng-option [value]="'All'">All</ng-option>
+          <ng-option [value]="'Johannesburg'">Johannesburg</ng-option>
+          <ng-option [value]="'Cape Town'">Cape Town</ng-option>
+          <ng-option [value]="'Pretoria'">Pretoria</ng-option>
+          <ng-option [value]="'Durban'">Durban</ng-option>
+          <ng-option [value]="'International'">International</ng-option>
+          <ng-option [value]="'Other'">Other</ng-option>
+        </ng-select>-->
+      </div>
+      <!-- location -->
+      <div class="form-group d-flex--direction-column">
+        <ss-multiselect-dropdown [options]="availabilityOptions"
+                                 [settings]="articlesFirmSettings"
+                                 [texts]="configAvailability"
+                                 [(ngModel)]="availabilityModel"
+                                 #availability
+                                 formControlName="availability"
+                                 (ngModelChange)="getAllCandidateListCount(search.value, articlesFirmSelectedName, nationalityModel, ethnicityModel, genderModel, qualificationModel, locationModel, criminalModel, creditModel, availabilityModel, null, enabledModel, selectedDateStart, selectedDateEnd, profileModel)"
+        ></ss-multiselect-dropdown>
+        <!--<ng-select placeholder="Availability" formControlName="availability" #availability [searchable]="false" (change)="getAllCandidateListCount(search.value, articlesFirmSelectedName, nationality.selectedValues[0], ethnicity.selectedValues[0], gender.selectedValues[0], qualification.selectedValues[0], location.selectedValues[0], criminal.selectedValues[0], credit.selectedValues[0], availability.selectedValues[0], null, enabled.selectedValues[0], selectedDateStart, selectedDateEnd, profileComplete.selectedValues[0])">
+          &lt;!&ndash;<ng-option [value]="null">Availability</ng-option>&ndash;&gt;
+          <ng-option [value]="'All'">All</ng-option>
+          <ng-option [value]="1">Immediately</ng-option>
+          <ng-option [value]="2">Within 1 calendar month</ng-option>
+          <ng-option [value]="3">Within 3 calendar months</ng-option>
+        </ng-select>-->
+      </div>
+      <!-- availability -->
+      <div class="form-group d-flex--direction-column margin-right--12">
+        <ss-multiselect-dropdown [options]="criminalOptions"
+                                 [settings]="articlesFirmSettings"
+                                 [texts]="configCriminal"
+                                 [(ngModel)]="criminalModel"
+                                 #criminal
+                                 formControlName="criminal"
+                                 (ngModelChange)="getAllCandidateListCount(search.value, articlesFirmSelectedName, nationalityModel, ethnicityModel, genderModel, qualificationModel, locationModel, criminalModel, creditModel, availabilityModel, null, enabledModel, selectedDateStart, selectedDateEnd, profileModel)"
+        ></ss-multiselect-dropdown>
+        <!--<ng-select placeholder="Criminal" formControlName="criminal" #criminal [searchable]="false" (change)="getAllCandidateListCount(search.value, articlesFirmSelectedName, nationality.selectedValues[0], ethnicity.selectedValues[0], gender.selectedValues[0], qualification.selectedValues[0], location.selectedValues[0], criminal.selectedValues[0], credit.selectedValues[0], availability.selectedValues[0], null, enabled.selectedValues[0], selectedDateStart, selectedDateEnd, profileComplete.selectedValues[0])">
+          &lt;!&ndash;<ng-option [value]="null">Availability</ng-option>&ndash;&gt;
+          <ng-option [value]="'All'">Criminal</ng-option>
+          <ng-option [value]="true">Yes</ng-option>
+          <ng-option [value]="false">No</ng-option>
+        </ng-select>-->
+      </div>
+      <!-- criminal -->
+      <div class="form-group d-flex--direction-column margin-right--12">
+        <ss-multiselect-dropdown [options]="creditOptions"
+                                 [settings]="articlesFirmSettings"
+                                 [texts]="configCredit"
+                                 [(ngModel)]="creditModel"
+                                 #credit
+                                 formControlName="credit"
+                                 (ngModelChange)="getAllCandidateListCount(search.value, articlesFirmSelectedName, nationalityModel, ethnicityModel, genderModel, qualificationModel, locationModel, criminalModel, creditModel, availabilityModel, null, enabledModel, selectedDateStart, selectedDateEnd, profileModel)"
+        ></ss-multiselect-dropdown>
+        <!--<ng-select placeholder="Credit" formControlName="credit" #credit [searchable]="false" (change)="getAllCandidateListCount(search.value, articlesFirmSelectedName, nationality.selectedValues[0], ethnicity.selectedValues[0], gender.selectedValues[0], qualification.selectedValues[0], location.selectedValues[0], criminal.selectedValues[0], credit.selectedValues[0], availability.selectedValues[0], null, enabled.selectedValues[0], selectedDateStart, selectedDateEnd, profileComplete.selectedValues[0])">
+          &lt;!&ndash;<ng-option [value]="null">Availability</ng-option>&ndash;&gt;
+          <ng-option [value]="'All'">Credit</ng-option>
+          <ng-option [value]="true">Yes</ng-option>
+          <ng-option [value]="false">No</ng-option>
+        </ng-select>-->
+      </div>
+      <!-- credit -->
+      <div class="form-group d-flex--direction-column">
+        <ss-multiselect-dropdown [options]="enabledOptions"
+                                 [settings]="articlesFirmSettings"
+                                 [texts]="configEnabled"
+                                 [(ngModel)]="enabledModel"
+                                 #enabled
+                                 formControlName="enabled"
+                                 (ngModelChange)="getAllCandidateListCount(search.value, articlesFirmSelectedName, nationalityModel, ethnicityModel, genderModel, qualificationModel, locationModel, criminalModel, creditModel, availabilityModel, null, enabledModel, selectedDateStart, selectedDateEnd, profileModel)"
+        ></ss-multiselect-dropdown>
+        <!--<ng-select placeholder="Enabled" formControlName="enabled" #enabled [searchable]="false" (change)="getAllCandidateListCount(search.value, articlesFirmSelectedName, nationality.selectedValues[0], ethnicity.selectedValues[0], gender.selectedValues[0], qualification.selectedValues[0], location.selectedValues[0], criminal.selectedValues[0], credit.selectedValues[0], availability.selectedValues[0], null, enabled.selectedValues[0], selectedDateStart, selectedDateEnd, profileComplete.selectedValues[0])">
+          &lt;!&ndash;<ng-option [value]="null">Availability</ng-option>&ndash;&gt;
+          <ng-option [value]="'All'">Enabled</ng-option>
+          <ng-option [value]="true">Yes</ng-option>
+          <ng-option [value]="false">No</ng-option>
+        </ng-select>-->
+      </div>
+      <!-- credit -->
+      <div class="form-group margin-right--12 d-flex d-flex--direction-column date-filter-applicant">
+        <div class="input-group margin-right--12 display-year">
+          <input autocomplete="off" class="form-control input-form" formControlName="articlesCompletedStart" [(ngModel)]="selectedDateStart" placeholder="Articles completed from" [dpDayPicker]="config" [mode]="'month'"
+                 (ngModelChange)="getAllCandidateListCount(search.value, articlesFirmSelectedName, nationalityModel, ethnicityModel, genderModel, qualificationModel, locationModel, criminalModel, creditModel, availabilityModel, null, enabledModel, selectedDateStart, selectedDateEnd, profileModel)"
+          />
+        </div>
+        <div class="input-group display-year">
+          <input autocomplete="off" class="form-control input-form" formControlName="articlesCompletedEnd" [(ngModel)]="selectedDateEnd" placeholder="Articles completed to" [dpDayPicker]="config" [mode]="'month'"
+                 (ngModelChange)="getAllCandidateListCount(search.value, articlesFirmSelectedName, nationalityModel, ethnicityModel, genderModel, qualificationModel, locationModel, criminalModel, creditModel, availabilityModel, null, enabledModel, selectedDateStart, selectedDateEnd, profileModel)"
+          />
+        </div>
+      </div>
+      <!-- month picker -->
+      <div class="form-group d-flex--direction-column">
+        <ss-multiselect-dropdown [options]="profileOptions"
+                                 [settings]="articlesFirmSettings"
+                                 [texts]="configProfile"
+                                 [(ngModel)]="profileModel"
+                                 #profileComplete
+                                 formControlName="profileComplete"
+                                 (ngModelChange)="getAllCandidateListCount(search.value, articlesFirmSelectedName, nationalityModel, ethnicityModel, genderModel, qualificationModel, locationModel, criminalModel, creditModel, availabilityModel, null, enabledModel, selectedDateStart, selectedDateEnd, profileModel)"
+        ></ss-multiselect-dropdown>
+        <!--<ng-select placeholder="Profile Completed" formControlName="profileComplete" #profileComplete [searchable]="false" (change)="getAllCandidateListCount(search.value, articlesFirmSelectedName, nationality.selectedValues[0], ethnicity.selectedValues[0], gender.selectedValues[0], qualification.selectedValues[0], location.selectedValues[0], criminal.selectedValues[0], credit.selectedValues[0], availability.selectedValues[0], null, enabled.selectedValues[0], selectedDateStart, selectedDateEnd, profileComplete.selectedValues[0])">
+          &lt;!&ndash;<ng-option [value]="null">Availability</ng-option>&ndash;&gt;
+          <ng-option [value]="'All'">Profile Completed</ng-option>
+          <ng-option [value]="true">Yes</ng-option>
+          <ng-option [value]="false">No</ng-option>
+        </ng-select>-->
+      </div>
+      <!-- profileComplete -->
+    </form>
+    <div class="row full-width d-flex--justify-end">
+      <button class="btn reset-btn" (click)="resetFilterForm()"><i class="fas fa-redo-alt"></i> reset filters</button>
+      <span class="total-count margin-left--16"><span>{{ candidatesCountMatchingCriteria }}</span> Candidates</span>
+      <button class="btn primary-button margin-left--16" (click)="resetArrayPagination();getAllCandidateList(search.value, articlesFirmSelectedName, nationalityModel, ethnicityModel, genderModel, qualificationModel, locationModel, criminalModel, creditModel, availabilityModel, null, enabledModel, selectedDateStart, selectedDateEnd, profileModel)">Search</button>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-12 padding-left--0 padding-right--0">
+    <div class="table-information full-width margin-bottom--24">
+      <div class="head">
+        <div class="row-table d-flex">
+          <div class="column-table" style="width: 17%">Name</div>
+          <div class="column-table" style="width: 15%">Articles Firm</div>
+          <div class="column-table" style="width: 20%">Email</div>
+          <div class="column-table" style="width: 15%">Tel Number</div>
+          <div class="column-table d-flex--justify-center" style="width: 12%">Actions</div>
+          <div class="column-table d-flex--justify-center" style="width: 13%">Profile Completed</div>
+          <div class="column-table d-flex--justify-center" style="width: 8%">Active</div>
+        </div>
+      </div>
+      <div class="body">
+        <div class="row-table" *ngFor="let candidateProfile of approveCandidateList">
+          <input type="checkbox" class="accordions__checkbox" id="{{ candidateProfile?.id }}">
+          <label class="accordions__heading" for="{{ candidateProfile?.id }}">{{ candidateProfile?.firstName }} {{ candidateProfile?.lastName }} <span class="accordion-item-cta">&#9650;</span></label>
+          <div class="content-row d-flex accordions__content">
+            <div class="column-table acc border-right-table" style="width: 17%">
+              <div class="title-cell">Name</div>
+              <div class="description-cell">
+                <span>{{ candidateProfile?.firstName }} {{ candidateProfile?.lastName }}</span>
+              </div>
+            </div>
+            <div class="column-table border-right-table" style="width: 15%">
+              <div class="title-cell">Articles Firm</div>
+              <div class="description-cell position--relative d-flex d-flex--align-center">
+                <img *ngIf="candidateProfile?.articlesFirm !== 'Other'" class="logo-table" src="/assets/img/logo_table/{{ candidateProfile?.articlesFirm | notSpace }}.jpg" #img (load)="hideArticlesFirm(img)" onerror="this.style.opacity='0'">
+                <span *ngIf="candidateProfile?.articlesFirm !== 'Other'" class="after_no-img">{{ candidateProfile?.articlesFirm }}</span>
+                <span *ngIf="candidateProfile?.articlesFirm === 'Other'">{{ candidateProfile?.articlesFirmName }}</span>
+              </div>
+            </div>
+            <div class="column-table border-right-table" style="width: 20%">
+              <div class="title-cell">Email</div>
+              <div class="description-cell">
+                <span>{{ candidateProfile?.email }}</span>
+              </div>
+            </div>
+            <div class="column-table border-right-table" style="width: 15%">
+              <div class="title-cell">Tel Number</div>
+              <div class="description-cell">
+                <span>{{ candidateProfile?.phone }}</span>
+              </div>
+            </div>
+            <div class="column-table button-cell border-right-table" style="width: 12%">
+              <div class="title-cell"></div>
+              <div class="description-cell d-flex d-flex--justify-around d-flex--align-center">
+                <a class="view-popup-icon" routerLink="/admin/edit_candidate" [queryParams]="{ candidateId: candidateProfile?.id}"><i class="fa fa-eye"></i></a>
+                <a class="view-popup-icon" (click)="openVerticallyCenter(content)"><i class="fas fa-times-circle"></i></a>
+              </div>
+            </div>
+            <div class="column-table border-right-table d-flex d-flex--justify-center d-flex--align-center" style="width: 13%">
+              <div class="title-cell">Profile Completed</div>
+              <div class="description-cell">
+                <span class="green-yes" *ngIf="candidateProfile?.percentage > 50 && candidateProfile?.video && candidateProfile?.cvFiles && candidateProfile?.cvFiles.length > 0">Yes</span>
+                <span class="red-no" *ngIf="candidateProfile?.percentage < 50 || !candidateProfile?.video || !candidateProfile?.cvFiles || candidateProfile?.cvFiles.length === 0">No</span>
+              </div>
+            </div>
+            <div class="column-table d-flex d-flex--justify-center d-flex--align-center" style="width: 8%">
+              <div class="title-cell">Active</div>
+              <div class="description-cell">
+                <div class="switch__container d-flex d-flex--justify-center d-flex--align-center">
+                  <input id="{{ candidateProfile?.phone }}" class="switch switch--shadow" type="checkbox" [(ngModel)]="candidateProfile.enabled" (click)="updateCandidateStatus(candidateProfile?.id, candidateProfile?.enabled)">
+                  <label for="{{ candidateProfile?.phone }}"></label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <ng-template #content let-c="close" let-d="dismiss">
+            <div class="modal-header">
+              <h4 class="modal-title">think twice</h4>
+              <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <h3 class="job-popup-title margin-bottom--16" style="font-size: 18px">Are you sure you want to delete candidate?</h3>
+              <button (click)="deleteCandidateProfile(candidateProfile?.id)" class="btn primary-button job-popup-button">Yes</button>
+              <a (click)="d('Cross click')" class="job-popup-delete">No</a>
+            </div>
+          </ng-template>
+        </div>
+        <div class="row-table not-found-search" *ngIf="approveCandidateList.length === 0">
+          <div class="content-row d-flex accordions__content">
+            <div class="column-table d-flex--justify-center" style="width: 100%">
+              <span>Candidates not found</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <span *ngIf="loadMoreCheck && !paginationLoader" class="job-popup-delete" (click)="loadPagination(search.value, articlesFirmSelectedName, nationalityModel, ethnicityModel, genderModel, qualificationModel, locationModel, criminalModel, creditModel, availabilityModel, null, enabledModel, selectedDateStart, selectedDateEnd, profileModel)">Load more</span>
+    <div *ngIf="paginationLoader" class="loader-table margin-bottom--12" id="loader-6">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="preloaderPage" id="preloader">
+  <div id="loader"></div>
+</div>
+
+<ng-template #contentCandidate let-cc="close" let-dc="dismiss">
+  <app-candidate-profile-popup [closePopup]="dc" [currentId]="selectedId" [candidateList]="approveCandidateList"></app-candidate-profile-popup>
+</ng-template>

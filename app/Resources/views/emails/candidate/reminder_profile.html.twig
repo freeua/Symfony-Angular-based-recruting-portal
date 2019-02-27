@@ -1,0 +1,10 @@
+{% extends 'emails/base_email.html.twig' %}
+{% block body_html %}
+    Hi {{ candidate.firstName }}
+    <br><br>
+    Please note that your profile on CAs Online is incomplete and you are currently unable to view any jobs advertised on CAs Online. Please ensure that you have uploaded your CV and other requested information and recorded a Video Interview.
+    <br><br>
+    Click <a href="{{ link }}">here</a> to update your Profile.
+    <br><br>
+    Get hold of us on <a href="mailto:info@casonline.co.za">info@casonline.co.za</a> if you have any questions or feedback.
+{% endblock %}

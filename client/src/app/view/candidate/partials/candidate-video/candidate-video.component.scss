@@ -1,0 +1,226 @@
+.content-page{
+  overflow-y: scroll;
+  padding: 20px;
+}
+.my-profile{
+  text-transform: uppercase;
+}
+.button-file-upload {
+  display: block;
+  overflow: hidden;
+  margin-bottom: 15px;
+
+  input[type="file"] {
+    left: -1000px;
+    position: fixed;
+  }
+
+  .fake-upload-button {
+    float: left;
+    margin-right: 12px;
+    background-color: grey;
+    border-radius: 3px;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 12px;
+    line-height: 3;
+    overflow: hidden;
+    padding: 0 30px;
+    position: relative;
+    text-align: center;
+    vertical-align: middle;
+    text-transform: uppercase;
+  }
+
+  .button-file-upload-text {
+    color: grey;
+    float: left;
+    font-size: 12px;
+    line-height: 3;
+  }
+}
+.upload-video{
+  cursor: pointer;
+  text-decoration: underline;
+}
+.cd{
+  font-size: 14px;
+  font-weight: 300;
+  color: #767676;
+
+  & > span{
+
+    .job-popup-delete{
+      display: inherit;
+      font-size: 14px;
+    }
+  }
+}
+
+.upload-file-t{
+  margin: 0 auto !important;
+}
+.list-style-type{
+  color: #969696;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 22px;
+}
+.ts{
+  color: #969696;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 22px;
+}
+
+
+.contant-profile{
+  .row{
+    .col-md-6{
+      @media screen and (max-width: 767px){
+        padding-left: 0;
+        padding-right: 0;
+
+        &:last-child{
+          margin-top: 24px;
+        }
+      }
+    }
+  }
+}
+.close{
+  position: absolute;
+  right: 10px;
+  top: 5px;
+  cursor: pointer;
+  z-index: 1;
+
+  &:focus{
+    outline: none;
+  }
+}
+.modal-body{
+  padding: 2.5rem 1rem 1rem 1rem;
+
+  .job-popup-title{
+    line-height: 20px;
+    margin-bottom: 16px;
+  }
+}
+
+.video-rec{
+  width: 100%;
+}
+.rec-actions{
+  margin-top: 18px;
+  padding-left: 15px;
+
+  & > div{
+    & > button{
+      margin-bottom: 18px;
+
+      & > i{
+        margin-right: 7px;
+      }
+    }
+  }
+}
+
+.modal-video-record{
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 99999;
+  background: rgba(0, 0, 0, .5);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &.active{
+    display: flex;
+    overflow: auto;
+  }
+
+  .video-record-head{
+    .close-test{
+      color: #000;
+      opacity: .5;
+    }
+    .close{
+      color: #fff;
+      opacity: .5;
+      font-size: 36px;
+    }
+  }
+  .video-record-body{
+    width: 70%;
+    margin: 0 auto;
+    background: #fff;
+
+    @media screen and (max-width: 700px){
+      width: 280px !important;
+      padding: 2rem 0.5rem 0.5rem 0.5rem !important;
+    }
+
+    @media screen and (min-width: 1500px){
+      width: 900px;
+    }
+  }
+}
+
+.modal-body{
+  @media screen and (max-width: 700px){
+    padding: 2rem 0.5rem 0.5rem 0.5rem !important;
+  }
+}
+.button-loader-video{
+  width: 278.5px;
+  justify-content: space-between;
+
+  .primary-button{
+    padding: 6px 30px 7px 33px !important;
+  }
+}
+
+.label-text{
+  color: #414041;
+  font-size: 14px;
+}
+.disabled-text{
+  color: #bbb;
+}
+
+.modal-video-record {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 99999;
+  background: rgba(0, 0, 0, .5);
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &.active {
+    display: flex;
+    overflow: auto;
+  }
+
+  .modal-header{
+    width: 450px;
+  }
+
+  .modal-body{
+    padding: 1rem 2rem;
+    width: 450px;
+    margin: 0 auto;
+    background: #fff;
+    flex: inherit;
+  }
+}

@@ -1,0 +1,426 @@
+<div class="title-description margin-bottom--32">
+  <div class="d-flex d-flex--align-center margin-bottom--24 profile-tabs-mobile">
+    <h3 style="margin-right: 45px;">my profile</h3>
+    <div class="tabs-items jobs-button-desktop">
+      <a class="tab-cell" style="padding: 11px 10px 11px 10px;" routerLink="/candidate/profile_details" routerLinkActive="active">Personal Information</a>
+      <a class="tab-cell" style="padding: 11px 10px 11px 10px;" routerLink="/candidate/achievements" routerLinkActive="active">Achievements & References </a>
+      <a class="tab-cell" style="padding: 11px 10px 11px 10px;" routerLink="/candidate/video" routerLinkActive="active">My Video</a>
+      <a class="tab-cell" style="padding: 11px 10px 11px 10px;" routerLink="/candidate/preferences" routerLinkActive="active">Preferences</a>
+    </div>
+    <select class="form-control field--medium input-form select-form jobs-button-mobile min-width--100" #filter1 (change)="routerApplicants(filter1.value)">
+      <option value="/candidate/profile_details">Personal Information</option>
+      <option value="/candidate/achievements">Achievements & References</option>
+      <option value="/candidate/video">My Video</option>
+      <option value="/candidate/preferences">Preferences</option>
+    </select>
+  </div>
+  <p *ngIf="_sharedService.visibleErrorProfileIcon">Please note that your profile needs to be 50% completed in order to apply for jobs.</p>
+  <p *ngIf="_sharedService.visibleErrorVideoIcon">You must fill in your Personal Info & My Video.</p>
+  <p *ngIf="!_sharedService.visibleErrorProfileIcon && !_sharedService.visibleErrorVideoIcon">Your profile is complete enough to be viewed by clients and to receive new job postings.</p>
+</div>
+<div class="row margin-top--32 margin-bottom--32" *ngIf="candidateProfileDetails?.profile?.percentage > 50 &&
+candidateProfileDetails?.profile?.cvFiles &&
+candidateProfileDetails?.profile?.cvFiles[0] &&
+((candidateProfileDetails?.allowVideo === true) || (candidateProfileDetails?.profile?.video && candidateProfileDetails?.profile?.video?.approved === true))">
+  <div class="col-md-8 padding-left--0 candidate-dashboard-notification">
+    <div class="row margin-bottom--8">
+      <div class="col-md-10 padding-left--0">
+        <label class="label-text">I am looking for a job</label>
+      </div>
+      <div class="col-md-2">
+        <div class="switch__container margin-left--12">
+          <input id="switch-shadow8" class="switch switch--shadow" type="checkbox" [(ngModel)]="checkLooking" (ngModelChange)="changeStatusCandidate('looking', checkLooking)">
+          <label for="switch-shadow8" [ngClass]="{'test-shadow': visibilityLooking}"></label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-10 padding-left--0">
+        <label *ngIf="checkLooking" class="label-text">I'm visible to all employers prior to my application to a job</label>
+        <label *ngIf="!checkLooking" class="label-text disabled-text">I'm visible to all employers prior to my application to a job</label>
+      </div>
+      <div class="col-md-2">
+        <div class="switch__container margin-left--12">
+          <input id="switch-shadow19" class="switch switch--shadow" type="checkbox" [(ngModel)]="checkVisible" (ngModelChange)="changeStatusCandidate('visible', checkVisible)">
+          <label for="switch-shadow19" [ngClass]="{'test-shadow': visibilityVisible}"></label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row progress-info">
+  <ngb-progressbar class="full-width" [value]="progressBar" type="warning" [max]="100">{{ progressBar }}% Complete</ngb-progressbar>
+</div>
+<div class="row margin-bottom--16">
+  <div class="col-md-12 padding-left--0 padding-right--0">
+    <div class="contant-profile">
+      <div class="table-information full-width achievements-mobile">
+        <div class="body">
+          <div class="row-table">
+            <input type="checkbox" class="accordions__checkbox" id="1">
+            <label class="accordions__heading" for="1">My Achievements <span class="accordion-item-cta">&#9650;</span></label>
+            <div class="content-row d-flex accordions__content">
+              <!-- Progress bar -->
+              <div class="row">
+                <div class="col-md-12 padding-left--0 padding-right--0">
+                  <h4 class="title-row margin-bottom--16">My Achievements</h4>
+                </div>
+              </div>
+              <!-- title achievements -->
+              <div class="row border-bottom padding-bottom--32 margin-bottom--32">
+                <div class="col-md-12 padding-bottom--12 margin-bottom--12 padding-left--0 padding-right--0">
+                  <div class="achievements margin-top--16 margin-bottom--16" *ngFor="let achievements of achievementsArray">
+                    <p class="margin-bottom--12">{{ achievements.description }}</p>
+                    <div class="d-flex">
+                      <button class="btn btn-interview margin-right--12" (click)="openVerticallyCentered(candidateAchievementsModal); getAchievementEdit(achievements.id, achievements.description)"><i class="fas fa-pencil-alt"></i> Edit</button>
+                      <button class="btn btn-interview" (click)="deleteCandidateAchievement(achievements.id)"><i class="fas fa-trash-alt"></i> Delete</button>
+                    </div>
+                  </div>
+                  <!-- List achievements -->
+                </div>
+                <div class="col-md-6 margin-top--24 padding-left--0 padding-right--0">
+                  <form *ngIf="achievementsArray.length < 5" [formGroup]="achievementsForm" class="add-achievements d-flex d-flex--direction-column margin-top--16">
+                    <textarea formControlName="description" #incidentDescription class="padding--10 input-form form-control" placeholder="Add your achievements here" name="achievements" maxlength="50" rows="5"></textarea>
+                    <small class="form-text text-muted">{{ 50 - incidentDescription.value.length }} characters</small>
+                    <span class="help-box d-flex d-flex--justify-start margin-bottom--12" *ngIf="achievementsForm.controls['description']?.errors?.maxLength && achievementsForm.controls['description'].touched">
+                      Achievements is required
+                    </span>
+                    <button (click)="createCandidateAchievement()" class="btn primary-button width--200 margin-top--16">Add Achievement</button>
+                  </form>
+                  <!-- form description -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-information full-width achievements-mobile">
+        <div class="body">
+          <div class="row-table">
+            <input type="checkbox" class="accordions__checkbox" id="2">
+            <label class="accordions__heading" for="2">References <span class="accordion-item-cta">&#9650;</span></label>
+            <div class="content-row d-flex accordions__content">
+              <div class="row margin-top--16 margin-bottom--8">
+                <div class="col-md-12 padding-left--0 padding-right--0">
+                  <h4 class="title-row margin-bottom--16">References</h4>
+                </div>
+              </div>
+              <!-- title references -->
+              <div class="row">
+                <span class="refences-info margin-bottom--12">Including references is optional. However, having references on your profile will increase your chances of finding a job.</span>
+                <div class="col-md-12 padding-bottom--12 margin-bottom--12 padding-left--0 padding-right--0">
+                  <div class="achievements margin-top--16 margin-bottom--24" *ngFor="let references of referencesArray">
+                    <p class="margin-bottom--8">{{ references.firstName }} {{ references.lastName }}; {{ references.role }}; {{ references.company }}</p>
+                    <p class="margin-bottom--18">{{ references.email }}; <span *ngIf="references.permission === false">No Permision to contact</span> <span *ngIf="references.permission === true">Permision to contact</span></p>
+                    <p class="margin-bottom--12">{{ references.comment }}</p>
+                    <div class="d-flex">
+                      <button class="btn btn-interview margin-right--12" (click)="openVerticallyCentered(candidateReferencesModal); getReferencesEdit(references.id, references, references.permission)"><i class="fas fa-pencil-alt"></i> Edit</button>
+                      <button class="btn btn-interview" (click)="deleteCandidateReferences(references.id)"><i class="fas fa-trash-alt"></i> Delete</button>
+                    </div>
+                  </div>
+                  <!-- List achievements -->
+                </div>
+                <div class="col-md-12 padding-left--0 padding-right--0">
+                  <form *ngIf="referencesArray.length < 5" [formGroup]="referencesForm" class="add-achievements d-flex d-flex--direction-column margin-top--16">
+                    <div class="row">
+                      <div class="col-md-6 padding-left--0">
+                        <div class="form-group d-flex d-flex--align-center required-icon-content">
+                          <input type="text" class="form-control input-form" placeholder="First Name" formControlName="firstName">
+                          <!--<span class="required-icon">*</span>-->
+                        </div>
+                        <span class="help-box d-flex d-flex&#45;&#45;justify-start margin-bottom&#45;&#45;12" *ngIf="referencesForm.controls['firstName']?.errors?.required && referencesForm.controls['firstName'].touched">
+                          First Name is required
+                        </span>
+                      </div>
+                      <div class="col-md-6 padding-right--0">
+                        <div class="form-group d-flex d-flex--align-center required-icon-content">
+                          <input type="text" class="form-control input-form" placeholder="Last Name" formControlName="lastName">
+                          <!--<span class="required-icon">*</span>-->
+                        </div>
+                        <span class="help-box d-flex d-flex&#45;&#45;justify-start margin-bottom&#45;&#45;12" *ngIf="referencesForm.controls['lastName']?.errors?.required && referencesForm.controls['lastName'].touched">
+                          Last Name is required
+                        </span>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6 padding-left--0">
+                        <div class="form-group d-flex d-flex--align-center required-icon-content">
+                          <input type="text" class="form-control input-form" placeholder="Referee Title" formControlName="role">
+                          <!--<span class="required-icon">*</span>-->
+                        </div>
+                        <span class="help-box d-flex d-flex&#45;&#45;justify-start margin-bottom&#45;&#45;12" *ngIf="referencesForm.controls['role']?.errors?.required && referencesForm.controls['role'].touched">
+                        Referee Title is required
+                      </span>
+                      </div>
+                      <div class="col-md-6 padding-right--0">
+                        <div class="form-group d-flex d-flex--align-center required-icon-content">
+                          <input type="text" class="form-control input-form" placeholder="Referee Company Name" formControlName="company">
+                          <!--<span class="required-icon">*</span>-->
+                        </div>
+                        <span class="help-box d-flex d-flex&#45;&#45;justify-start margin-bottom&#45;&#45;12" *ngIf="referencesForm.controls['company']?.errors?.required && referencesForm.controls['company'].touched">
+                          Referee Company Name is required
+                        </span>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-6 padding-left--0">
+                        <div class="form-group d-flex d-flex--align-center required-icon-content">
+                          <input type="text" class="form-control input-form" placeholder="Email address" formControlName="email">
+                          <!--<span class="required-icon">*</span>-->
+                        </div>
+                        <span class="help-box d-flex d-flex&#45;&#45;justify-start margin-bottom&#45;&#45;12" *ngIf="referencesForm.controls['email']?.errors?.email && referencesForm.controls['email'].touched">
+                          Email is required
+                        </span>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12 padding-left--0 padding-right--0">
+                        <div class="form-group d-flex d-flex--align-center required-icon-content">
+                          <input type="text" class="form-control input-form" placeholder="What did the employer say about you?" formControlName="comment">
+                          <!--<span class="required-icon">*</span>-->
+                        </div>
+                        <span class="help-box d-flex d-flex&#45;&#45;justify-start margin-bottom&#45;&#45;12" *ngIf="referencesForm.controls['comment']?.errors?.required && referencesForm.controls['comment'].touched">
+                          Message is required
+                        </span>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-12 padding-left--0 padding-right--0">
+                        <div class="form-group d-flex d-flex--align-center">
+                          <label class="sub-text">Do you give CAs Online permission to contact this reference?</label>
+                          <div class="col-md-6 radio-buttons-container">
+                            <div class="radio">
+                              <input id="radio-1" name="radio" type="radio" [checked]="permision === true" (click)="choicePermisionCheck('permision', true)">
+                              <label for="radio-1" class="radio-label">Yes</label>
+                            </div>
+                            <div class="radio">
+                              <input id="radio-2" name="radio" type="radio" [checked]="permision === false" (click)="choicePermisionCheck('permision', false)">
+                              <label  for="radio-2" class="radio-label">No</label>
+                            </div>
+                          </div>
+                        </div>
+                        <span class="help-box d-flex d-flex--justify-start margin-bottom--12 margin-top--0" *ngIf="checkRequiredPermission && permision === undefined">
+                          Permission to contact or not is required
+                        </span>
+                      </div>
+                    </div>
+                    <button (click)="createCandidateReferences()" class="btn primary-button width--200 margin-top--16">Add Reference</button>
+                  </form>
+                  <!-- form references -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="d-flex d-flex--justify-center d-flex--align-center border-top-step border-bottom-step padding--15">
+  <button (click)="stepNextPage()" class="btn primary-button margin-top--16 margin-bottom--8">Next</button>
+</div>
+
+<div *ngIf="preloaderPage" id="preloader">
+  <div id="loader"></div>
+</div>
+
+<ng-template #candidateAchievementsModal let-cb="close" let-db="dismiss">
+  <div class="modal-header">
+    <button type="button" class="close" aria-label="Close" (click)="db()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <h4 class="title-row">Edit achievement</h4>
+    <form [formGroup]="achievementsEditForm">
+      <div class="form-group">
+        <textarea formControlName="description" class="padding--10 full-width margin-bottom--8 margin-top--16 form-control input-form" placeholder="Add your achievements here" name="achievements" maxlength="50" rows="5"></textarea>
+        <span class="help-box d-flex d-flex--justify-start margin-bottom--12" *ngIf="achievementsEditForm.controls['description']?.errors?.maxLength && achievementsEditForm.controls['description'].touched">
+          Achievements is required
+        </span>
+      </div>
+      <button class="btn danger-button float-left" (click)="closeActiveModal()">Close</button>
+      <button class="btn primary-button float-right" (click)="updateCandidateAchievement()">Update</button>
+    </form>
+  </div>
+</ng-template>
+<!-- Candidate achievements modal -->
+
+<ng-template #candidateReferencesModal let-cb="close" let-db="dismiss">
+  <div class="modal-header">
+    <button type="button" class="close" aria-label="Close" (click)="db()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <h4 class="title-row">Edit reference</h4>
+    <form [formGroup]="referencesEditForm" class="add-achievements d-flex d-flex--direction-column margin-top--16">
+      <div class="form-group list-input d-flex d-flex--align-center">
+        <input type="text" class="form-control full-width input-form" placeholder="Referee First Name" formControlName="firstName">
+      </div>
+      <span class="help-box d-flex d-flex--justify-start margin-bottom--12 margin-top--0" *ngIf="referencesEditForm.controls['firstName']?.errors?.required && referencesEditForm.controls['firstName'].touched">
+          First Name is required
+        </span>
+      <div class="form-group list-input d-flex d-flex--align-center">
+        <input type="text" class="form-control full-width input-form" placeholder="Referee Last Name" formControlName="lastName">
+      </div>
+      <span class="help-box d-flex d-flex--justify-start margin-bottom--12 margin-top--0" *ngIf="referencesEditForm.controls['lastName']?.errors?.required && referencesEditForm.controls['lastName'].touched">
+          Last Name is required
+        </span>
+      <div class="form-group list-input d-flex d-flex--align-center">
+        <input type="text" class="form-control full-width input-form" placeholder="Referee Title" formControlName="role">
+      </div>
+      <span class="help-box d-flex d-flex--justify-start margin-bottom--12 margin-top--0" *ngIf="referencesEditForm.controls['role']?.errors?.required && referencesEditForm.controls['role'].touched">
+          Referee Title is required
+        </span>
+      <div class="form-group list-input d-flex d-flex--align-center">
+        <input type="text" class="form-control full-width input-form" placeholder="Referee Company Name" formControlName="company">
+      </div>
+      <span class="help-box d-flex d-flex--justify-start margin-bottom--12 margin-top--0" *ngIf="referencesEditForm.controls['company']?.errors?.required && referencesEditForm.controls['company'].touched">
+          Referee Company Name is required
+        </span>
+      <div class="form-group list-input d-flex d-flex--align-center">
+        <input type="text" class="form-control full-width input-form" placeholder="Email" formControlName="email">
+      </div>
+      <span class="help-box d-flex d-flex--justify-start margin-bottom--12 margin-top--0" *ngIf="referencesEditForm.controls['email']?.errors?.email && referencesEditForm.controls['email'].touched">
+          Email is required
+        </span>
+      <div class="form-group list-input d-flex d-flex--align-center">
+        <input type="text" class="form-control full-width input-form" placeholder="What did the employer say about you?" formControlName="comment">
+      </div>
+      <span class="help-box d-flex d-flex--justify-start margin-bottom--12 margin-top--0" *ngIf="referencesEditForm.controls['comment']?.errors?.required && referencesEditForm.controls['comment'].touched">
+          Comment is required
+        </span>
+      <div class="form-group list-input d-flex d-flex--align-center">
+        <div class="col-md-8 padding-left--0">
+          <label class="sub-text">Did you give CA's Online permission to contact this reference?</label>
+        </div>
+        <div class="col-md-4 radio-buttons-container">
+          <div class="radio">
+            <input id="radio-3" name="radio" type="radio" [checked]="permisionUpdate === true" (click)="choicePermisionCheck('permisionUpdate', true)">
+            <label for="radio-3" class="radio-label">Yes</label>
+          </div>
+          <div class="radio">
+            <input id="radio-4" name="radio" type="radio" [checked]="permisionUpdate === false" (click)="choicePermisionCheck('permisionUpdate', false)">
+            <label  for="radio-4" class="radio-label">No</label>
+          </div>
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-xs-12">
+          <button class="btn danger-button float-left" (click)="closeActiveModal()">Close</button>
+          <button (click)="updateCandidateReferences()" class="btn primary-button float-right">Update</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</ng-template>
+<!-- Candidate references modal -->
+
+<ng-template #contentReference let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">think twice</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="padding: 1rem 2rem;">
+    <h3 class="job-popup-title">Are you sure you want to leave?</h3>
+    <span class="job-popup-desc">You have made changes you have not saved. If you leave now your changes will not be saved. You can save your changes by selecting "Add Reference" at the bottom of the page.</span>
+    <div class="d-flex d-flex--justify-around margin-bottom--12">
+      <button (click)="exitPage()" class="btn primary-button">Yes</button>
+      <button (click)="d('Cross click')" class="btn primary-button">No</button>
+    </div>
+    <!--<a (click)="" class="job-popup-delete">No</a>-->
+  </div>
+</ng-template>
+
+<ng-template #contentAchievement let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">think twice</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="padding: 1rem 2rem;">
+    <h3 class="job-popup-title">Are you sure you want to leave?</h3>
+    <span class="job-popup-desc">You have made changes you have not saved. If you leave now your changes will not be saved. You can save your changes by selecting "Add Achievement" at the bottom of the page.</span>
+    <div class="d-flex d-flex--justify-around margin-bottom--12">
+      <button (click)="exitPage()" class="btn primary-button">Yes</button>
+      <button (click)="d('Cross click')" class="btn primary-button">No</button>
+    </div>
+    <!--<a (click)="" class="job-popup-delete">No</a>-->
+  </div>
+</ng-template>
+
+<ng-template #contentAll let-c="close" let-d="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title">think twice</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="padding: 1rem 2rem;">
+    <h3 class="job-popup-title">Are you sure you want to leave?</h3>
+    <span class="job-popup-desc">You have made changes you have not saved. If you leave now your changes will not be saved. You can save your changes by selecting "Add Reference" and "Add Achievement" at the bottom of the page.</span>
+    <div class="d-flex d-flex--justify-around margin-bottom--12">
+      <button (click)="exitPage()" class="btn primary-button">Yes</button>
+      <button (click)="d('Cross click')" class="btn primary-button">No</button>
+    </div>
+    <!--<a (click)="" class="job-popup-delete">No</a>-->
+  </div>
+</ng-template>
+
+<div [ngClass]="{'active': videoUploadPopup}" class="modal-video-record">
+  <div class="modal-header">
+    <h4 class="modal-title">disable profile</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeLookingPopup(false, true)">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="padding: 1rem 2rem;">
+    <h3 class="job-popup-title">Please note, turning this off will mean:</h3>
+    <span class="job-popup-desc margin-bottom--6">- You will no longer receive any notifications of any new jobs.</span>
+    <span class="job-popup-desc margin-bottom--6">- You will not be visible to clients browsing profiles.</span>
+    <span class="job-popup-desc margin-bottom--24">- Any current applications you have made will be cancelled</span>
+    <div class="d-flex d-flex--justify-around margin-bottom--12">
+      <button (click)="lookingJobToggle('looking', checkLooking);closeLookingPopup(false, false)" class="btn primary-button">Disable Profile</button>
+      <button (click)="closeLookingPopup(false, true)" class="btn primary-button">Go Back</button>
+    </div>
+  </div>
+</div>
+
+<div [ngClass]="{'active': visibleActivePopup}" class="modal-video-record">
+  <div class="modal-header">
+    <h4 class="modal-title">think twice</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeVisiblePopup(false, false)">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="padding: 1rem 2rem;">
+    <h3 class="job-popup-title">Please note, turning this toggle on will mean:</h3>
+    <span class="job-popup-desc margin-bottom--24">Your profile becomes visible to all potential employers - which may include your current employer.</span>
+    <div class="d-flex d-flex--justify-around margin-bottom--12">
+      <button (click)="closeVisiblePopup(false, true);visibleJobToggle('visible', checkVisible)" class="btn primary-button">I Understand</button>
+      <button (click)="closeVisiblePopup(false, false)" class="btn primary-button">Go Back</button>
+    </div>
+  </div>
+</div>
+
+<div [ngClass]="{'active': permissonPopup}" class="modal-video-record">
+  <div class="modal-header">
+    <h4 class="modal-title">heads up</h4>
+    <button type="button" class="close" aria-label="Close" (click)="eventPermissionPopup(false, false)">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body" style="padding: 1rem 2rem;">
+    <h3 class="job-popup-title">We see you haven't given CAs Online permission to contact your reference</h3>
+    <span class="job-popup-desc margin-bottom--24">This unfortunately means that your reference will not be displayed on your profile.</span>
+    <div class="d-flex d-flex--justify-around margin-bottom--12">
+      <button (click)="eventPermissionPopup(false, false);subCreateReference()" class="btn primary-button">I Understand</button>
+      <button (click)="eventPermissionPopup(false, true)" class="btn primary-button">Go Back</button>
+    </div>
+  </div>
+</div>
